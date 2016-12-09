@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 #include <boost/mpi.hpp>
-#include "model/HPyloriModel.h"
+#include "model/IBDModel.h"
 #include "repast_hpc/RepastProcess.h"
 
 void benchmarkModel(int &argc, char** argv) 
@@ -23,7 +23,7 @@ void benchmarkModel(int &argc, char** argv)
   double t1=timeStart.tv_sec+(timeStart.tv_usec/1000000.0);  
  
 // Code to benchmark starts here
-  ENISI::HPModel model;
+  ENISI::IBDModel model;
 
   repast::ScheduleRunner& runner = 
     repast::RepastProcess::instance()->getScheduleRunner();
