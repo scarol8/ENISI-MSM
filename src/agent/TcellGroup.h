@@ -42,6 +42,7 @@ private:
 	double p_th17rep;
 	double p_tregrep;
 	double p_th1rep;
+	double p_allTcap;
 
 
 };
