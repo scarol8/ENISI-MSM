@@ -40,7 +40,7 @@ lamina_propria.border.y.low = epithilium
 lamina_propria.border.y.high = gastric_lymph_node
 
 # Yongguo used these values to make the model fit the data.
-# They don't have any inherent meaning otherwise
+# They dont have any inherent meaning otherwise
 lamina_propria.eIL6.initialValue = 10
 lamina_propria.eIL6.diffusion = 0.6
 lamina_propria.eIL6.degradation = 0.05
@@ -68,7 +68,7 @@ lamina_propria.eIFNg.degradation = 0.02
 lamina_propria.Dendritics.concentration = Dendritics.concentration
 lamina_propria.Tcell.concentration = Tcell.concentration
 lamina_propria.BacteriaP.concentration = 0
-lamina_propria.HPyloriDA.concentration = 0
+lamina_propria.BacteriaDA.concentration = 0
 lamina_propria.macrophages.concentration = macrophages.concentration
 lamina_propria.Neutrophil.concentration = Neutrophil.concentration
 
