@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <boost/mpi.hpp>
-#include "model/HPyloriModel.h"
+#include "model/IBDModel.h"
 #include "repast_hpc/RepastProcess.h"
 #include "grid/Properties.h"
 
@@ -60,7 +60,7 @@ int main(int argc, char** argv)
 
   ENISI::Properties ModelProperties(ENISI::Properties::model, config + "/model.props", argc, argv, &world);
 
-  ENISI::HPModel model;
+  ENISI::IBDModel model;
 
   repast::ScheduleRunner& runner = 
     repast::RepastProcess::instance()->getScheduleRunner();
