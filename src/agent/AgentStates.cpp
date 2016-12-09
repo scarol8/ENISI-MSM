@@ -19,7 +19,7 @@ void ENISI::init()
 }
 
 // static
-Agent::Type BacteriaState::Type = Agent::Bacteria;
+Agent::Type BacteriaPState::Type = Agent::BacteriaP;
 
 // static
 Agent::Type DendriticState::Type = Agent::Dentritics;
@@ -28,10 +28,13 @@ Agent::Type DendriticState::Type = Agent::Dentritics;
 Agent::Type EpithelialCellState::Type = Agent::EpithelialCell;
 
 // static
-Agent::Type HPyloriState::Type = Agent::HPylori;
+Agent::Type BacteriaDAState::Type = Agent::BacteriaDA;
 
 // static
 Agent::Type MacrophageState::Type = Agent::Macrophage;
+
+// static
+Agent::Type NeutrophilState::Type = Agent::Neutrophil;
 
 // static
 Agent::Type TcellState::Type = Agent::Tcell;
@@ -40,8 +43,8 @@ size_t StateSize(const Agent::Type & type)
 {
   switch (type)
     {
-      case Agent::Bacteria:
-        return BacteriaState::KEEP_AT_END;
+      case Agent::BacteriaP:
+        return BacteriaPState::KEEP_AT_END;
         break;
 
       case Agent::Dentritics:
@@ -52,8 +55,8 @@ size_t StateSize(const Agent::Type & type)
         return EpithelialCellState::KEEP_AT_END;
         break;
 
-      case Agent::HPylori:
-        return HPyloriState::KEEP_AT_END;
+      case Agent::BacteriaDA:
+        return BacteriaDAState::KEEP_AT_END;
         break;
 
       case Agent::ImmuneCell:
@@ -62,6 +65,10 @@ size_t StateSize(const Agent::Type & type)
 
       case Agent::Macrophage:
         return MacrophageState::KEEP_AT_END;
+        break;
+
+      case Agent::Neutrophil:
+        return NeutrophilState::KEEP_AT_END;
         break;
 
       case Agent::Tcell:

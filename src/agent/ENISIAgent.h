@@ -17,14 +17,15 @@ private:
 public:
   enum Type
   {
-    Bacteria = 0x01,
-    Dentritics = 0x02,
+    BacteriaP = 0x01,
+    Dendritics = 0x02,
     EpithelialCell = 0x04,
-    HPylori = 0x08,
+    BacteriaDA = 0x08,
     ImmuneCell = 0x10,
     Macrophage = 0x20,
     Tcell = 0x40,
-    DiffuserValues = 0x80
+    DiffuserValues = 0x80,
+	Neutrophil = 0x100
   };
 
   enum Color {pink, red, blue, green, black, cyan };

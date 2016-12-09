@@ -9,56 +9,40 @@
 using namespace ENISI;
 
 TcellGroup::TcellGroup(Compartment * pCompartment, const double & concentrations) :
-  GroupInterface(pCompartment)
+																										  GroupInterface(pCompartment)
 {
-  size_t LocalCount = mpCompartment->localCount(concentrations);
+	size_t LocalCount = mpCompartment->localCount(concentrations);
 
-  for (size_t i = 0; i < LocalCount; i++)
-    {
-      mpCompartment->addAgentToRandomLocation(new Agent(Agent::Tcell, TcellState::NAIVE));
-    }
-  const Properties * pModel = Properties::instance(Properties::model);
+	for (size_t i = 0; i < LocalCount; i++)
+	{
+		mpCompartment->addAgentToRandomLocation(new Agent(Agent::Tcell, TcellState::NAIVE));
+	}
+	const Properties * pModel = Properties::instance(Properties::model);
 
-  pModel->getValue("p_rule18", p_rule18);
-  pModel->getValue("p_rule19", p_rule19);
-  pModel->getValue("p_rule20", p_rule20);
-  pModel->getValue("p_rule21", p_rule21);
-  pModel->getValue("p_rule22", p_rule22);
-  pModel->getValue("p_rule23", p_rule23);
-  pModel->getValue("p_rule24", p_rule24);
-  pModel->getValue("p_rule26", p_rule26);
-  pModel->getValue("p_rule27", p_rule27);
-  pModel->getValue("p_rule31", p_rule31);
-  pModel->getValue("p_rule31a",p_rule31a);
-  pModel->getValue("p_rule32", p_rule32);
-  pModel->getValue("p_rule33", p_rule33);
-  pModel->getValue("p_rule35", p_rule35);
-  pModel->getValue("p_rule36", p_rule36);
-  pModel->getValue("p_rule37", p_rule37);
-  pModel->getValue("p_rule38", p_rule38);
-  pModel->getValue("p_rule39", p_rule39);
-  pModel->getValue("p_rule40", p_rule40);
-  pModel->getValue("p_rule41", p_rule41);
-  pModel->getValue("p_rule53", p_rule53);
-  pModel->getValue("p_rule55a", p_rule55a);
-  pModel->getValue("p_rule55b", p_rule55b);
-  pModel->getValue("p_naiveTcelldeath",p_naiveTcelldeath);
-  pModel->getValue("Th1cap",Th1cap);
-  pModel->getValue("Th17cap",Th17cap);
-  pModel->getValue("iTregcap",iTregcap);
-  pModel->getValue("TotalTcellcap",TotalTcellcap);
-
-
-  //pModel->getValue("p_rule56", p_rule56);
-  pModel->getValue("neardistane_border", neardistane_border);
-  pModel->getValue("p_IL17", p_IL17);
-  pModel->getValue("p_IFNg", p_IFNg);
-  pModel->getValue("p_IL10", p_IL10);
+	pModel->getValue("p_alltrep", p_alltrep);
+	pModel->getValue("p_th1diff", p_th1diff);
+	pModel->getValue("p_th17diff", p_th17diff);
+	pModel->getValue("p_tregdiff", p_tregdiff);
+	pModel->getValue("p_IL10", p_IL10);
+	pModel->getValue("p_IL17", p_IL17);
+	pModel->getValue("p_IFNg", p_IFNg);
+	pModel->getValue("p_ntdeath", p_ntdeath);
+	pModel->getValue("p_th17treg", p_th17treg);
+	pModel->getValue("p_tregth17", p_tregth17);
+	pModel->getValue("p_th17cyto", p_th17cyto);
+	pModel->getValue("p_tregcyto", p_tregcyto);
+	pModel->getValue("p_th1cyto", p_th1cyto);
+	pModel->getValue("p_tcelltrans", p_tcelltrans);
+	pModel->getValue("p_th17death", p_th17death);
+	pModel->getValue("p_tregdeath", p_tregdeath);
+	pModel->getValue("p_th1death", p_th1death);
+	pModel->getValue("p_th17rep", p_th17rep);
+	pModel->getValue("p_tregrep", p_tregrep);
+	pModel->getValue("p_th1rep", p_th1rep);
 }
 
 void TcellGroup::act(const repast::Point<int> & pt)
 {
-	//LocalFile::debug() << "I am in Tcells act()" << std::endl;
 	std::vector< double > Location(2, 0.0);
 
 	std::vector< Agent * > Tcells;
@@ -67,34 +51,28 @@ void TcellGroup::act(const repast::Point<int> & pt)
 	std::vector< Agent * > Macrophages;
 	mpCompartment->getAgents(pt, Agent::Macrophage, Macrophages);
 
-	std::vector< Agent * > Dentritics;
-	mpCompartment->getAgents(pt, Agent::Dentritics, Dentritics);
+	std::vector< Agent * > Dendritics;
+	mpCompartment->getAgents(pt, Agent::Dendritics, Dendritics);
 
-	std::vector< Agent * > EpithelialCells; // We only request information if we are at the border
+	std::vector< Agent * > EpithelialCells;
 
 	if (mpCompartment->getType() == Compartment::lamina_propria)
-	  {
-	    if (mpCompartment->gridBorders()->distanceFromBorder(pt.coords(), Borders::Y, Borders::LOW) < 0.5)
-	      {
-	        mpCompartment->getAgents(pt, 0, -1, Agent::EpithelialCell, EpithelialCells);
-	      }
-	  }
-	if (mpCompartment->getType() == Compartment::gastric_lymph_node)
-	 {
+	{
 		if (mpCompartment->gridBorders()->distanceFromBorder(pt.coords(), Borders::Y, Borders::LOW) < 0.5)
-		  {
-			mpCompartment->getAgents(pt, 0, -1, Agent::Dentritics, Dentritics);
-		  }
-	 }
+		{
+			mpCompartment->getAgents(pt, 0, -1, Agent::EpithelialCell, EpithelialCells);
+		}
+	}
 
-  Concentration TcellConcentration;
-  concentrations(Agent::Tcell, Tcells, TcellConcentration);
-  Concentration MacrophageConcentration;
-  concentrations(Agent::Macrophage, Macrophages, MacrophageConcentration);
-  Concentration DentriticsConcentration;
-  concentrations(Agent::Dentritics, Dentritics, DentriticsConcentration);
-  Concentration EpithelialCellConcentration;
-  concentrations(Agent::EpithelialCell, EpithelialCells, EpithelialCellConcentration);
+	Concentration TcellConcentration;
+	concentrations(Agent::Tcell, Tcells, TcellConcentration);
+	Concentration MacrophageConcentration;
+	concentrations(Agent::Macrophage, Macrophages, MacrophageConcentration);
+	Concentration DendriticsConcentration;
+	concentrations(Agent::Dendritics, Dendritics, DendriticsConcentration);
+	Concentration EpithelialCellConcentration;
+	concentrations(Agent::EpithelialCell, EpithelialCells, EpithelialCellConcentration);
+
 
 	double IL6_pool  = mpCompartment->cytokineValue("eIL6", pt);
 	double TGFb_pool = mpCompartment->cytokineValue("eTGFb", pt);
@@ -108,369 +86,274 @@ void TcellGroup::act(const repast::Point<int> & pt)
 
 	/* run time course */
 	if (!odeModel.runTimeCourse())
-	  {
-	    LocalFile::debug() << pt << std::endl;
-	  }
+	{
+		LocalFile::debug() << pt << std::endl;
+	}
 	double dIFNg = odeModel.getConcentration("dIFNg");
 	double dIL17 = odeModel.getConcentration("dIL17");
 	double dIL10 = odeModel.getConcentration("dIL10");
 
-  /*LocalFile::debug() << "dIFNg = " << dIFNg << std::endl;
-  LocalFile::debug() << "dIL17 = " << dIL17 << std::endl;
-  LocalFile::debug() << "dIL10 = " << dIL10 << std::endl;*/
-
-	double macrophageregConcentration = MacrophageConcentration[MacrophageState::REGULATORY];
+	double trmacConcentration = MacrophageConcentration[MacrophageState::RESIDENT];
+	double infmacConcentration = MacrophageConcentration[MacrophageState::INFLAMATORY];
+	double intmacConcentration = MacrophageConcentration[MacrophageState::INTERMEDIATE];
 	double naiveTConcentration = TcellConcentration[TcellState::NAIVE];
-	double th17Concentration = TcellConcentration[TcellState::TH17]; //Rules 22, 23, 36-39 when Th17 is in contact
-	double itregConcentration = TcellConcentration[TcellState::iTREG]; //Rules 19-21 when iTreg is in contact
+	double th17Concentration = TcellConcentration[TcellState::TH17];
+	double tregConcentration = TcellConcentration[TcellState::iTREG];
 	double th1Concentration = TcellConcentration[TcellState::TH1];
-	double eDCConcentration = DentriticsConcentration[DendriticState::EFFECTOR]; //Rule 39 eDC count that is in contact with nT
-	double tDCConcentration = DentriticsConcentration[DendriticState::TOLEROGENIC]; //Rule 23 tDC count
-	double damagedEpithelialCellConcentration = EpithelialCellConcentration[EpithelialCellState::DAMAGED];// Rule 18 damagedEpithelialCellConcentration
-	/*LocalFile::debug() << "eDCConcentration			      		="<< eDCConcentration 					<< std::endl;
-	LocalFile::debug() << "tDCConcentration				 		="<< tDCConcentration 					<< std::endl;
-	LocalFile::debug() << "damagedEpithelialCellConcentration	="<< damagedEpithelialCellConcentration << std::endl;
-	LocalFile::debug() << "macrophageregConcentration		  	="<< macrophageregConcentration 		<< std::endl;
-	LocalFile::debug() << "th17Concentration			  	  	="<< th17Concentration 					<< std::endl;*/
-	//LocalFile::debug() << "th1Concentration			      =" << th1Concentration << std::endl;
-	//LocalFile::debug() << "immatureDentritics		      =" << immatureDentritics << std::endl;
+	double eDCConcentration = DentriticsConcentration[DendriticState::EFFECTOR];
+	double tDCConcentration = DentriticsConcentration[DendriticState::TOLEROGENIC];
+	double epiinfConcentration = EpithelialCellConcentration[EpithelialCellState::INFLAMED];
+
+	double IFNg = mpCompartment->cytokineValue("eIFNg", pt);
+	double IL10 = mpCompartment->cytokineValue("eIL10", pt);
+	double TGFb = mpCompartment->cytokineValue("eTGFb", pt);
+	double IL17 = mpCompartment->cytokineValue("eIL17", pt);
+	double IL6 = mpCompartment->cytokineValue("eIL6", pt);
+	double IL12 = mpCompartment->cytokineValue("eIL12", pt);
+
 	std::vector< Agent * >::iterator it = Tcells.begin();
 	std::vector< Agent * >::iterator end = Tcells.end();
 
-for (; it != end; ++it)
-  {
-    Agent * pAgent = *it;
-    TcellState::State state = (TcellState::State) pAgent->getState();
-    if (state == TcellState::DEAD) continue;
-    TcellState::State newState = state;
+	for (; it != end; ++it)
+	{
+		Agent * pAgent = *it;
+		TcellState::State state = (TcellState::State) pAgent->getState();
 
-    /*if (state != TcellState::Tr) //Rule 58
+		if (state == TcellState::DEAD) continue;
+
+		TcellState::State newState = state;
+
+		if (mpCompartment->getType() == Compartment::gastric_lymph_node)
 		{
-		//LocalFile::debug() << "I am here 00" << std::endl;
-		if (dIL17 > p_IL17) {
-			newState = TcellState::TH17;
-			mpCompartment->cytokineValue("eIL17", pt) += 70;
-			LocalFile::debug() << "I am here 01" << std::endl;
-		}
-		else if (dIFNg > p_IFNg) {
-			newState = TcellState::TH1;
-			mpCompartment->cytokineValue("eIFNg", pt) += 70;
-			LocalFile::debug() << "I am here 02" << std::endl;
-		}
-		else if (dIL10 > p_IL10) {
-			newState = TcellState::iTREG;
-			mpCompartment->cytokineValue("eIL10", pt) += 70;
-			LocalFile::debug() << "I am here 03" << std::endl;
-		}
-	}*/
-    if (mpCompartment->getType() == Compartment::gastric_lymph_node)
-      {
-        if (p_rule40 > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next() 
-	   && TotalTcellcap > (naiveTConcentration + th17Concentration + th1Concentration + itregConcentration))
-          {
-            mpCompartment->getLocation(pAgent->getId(), Location);
-            mpCompartment->addAgent(new Agent(Agent::Tcell, pAgent->getState()), Location);
-            continue;
-          }
-
-        if(state == TcellState::NAIVE)
-          {
-            if (eDCConcentration  > ENISI::Threshold)
-              {
-                if (p_rule39 > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next() && eDCConcentration *
-		    repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next() * Th1cap > th1Concentration)
-                  {
-                    newState = TcellState::TH1; /*Rule 39*/
-                    //pAgent->setState(newState);
-                    //LocalFile::debug() << "I am here 11" << std::endl;
-                  }
-                else if (p_rule55a > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()
-                    && (dIL17 > p_IL17) && eDCConcentration *
-		    repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next() * Th17cap > th17Concentration)
-                  {
-//LocalFile::debug() << ">>> eDC changed nT to Th17" << std::endl;
-                    newState = TcellState::TH17;
-                    //pAgent->setState(newState);
-                    mpCompartment->cytokineValue("eIL17", pt) += dIL17;
-                  }
-                else if (p_rule55b > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()
-                    && (dIFNg > p_IFNg) && eDCConcentration *
-		    repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next() * Th1cap > th1Concentration)
-                  {
-                    newState = TcellState::TH1;
-                    //pAgent->setState(newState);
-                    mpCompartment->cytokineValue("eIFNg", pt) += dIFNg;
-                    LocalFile::debug() << ">>> eDC changed nT to Th1" << std::endl;
-                  }
-              }
-            if ((tDCConcentration > ENISI::Threshold)
-                && (p_rule53 > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()) && tDCConcentration *
-		    repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next() * iTregcap > itregConcentration)
-              {
-                newState = TcellState::iTREG; /*Rule 53*/
-                //pAgent->setState(newState);
-                //LocalFile::debug() << "I am here 12" << std::endl;
-              }
-            if (p_naiveTcelldeath > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
-            {
-            	mpCompartment->removeAgent(pAgent); /*Rule naiveTcelldeath*- Naive T cell can die in LP*/
-            	continue;
-            }
-          }
-        if (state == TcellState::TH17)
-          {
-        	if  ((tDCConcentration > ENISI::Threshold)
-        			&& (p_rule36 > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()))
-        	{
-        		newState = TcellState::iTREG; /*Rule 36*/
-        		//pAgent->setState(newState);
-        		//LocalFile::debug() << "I am here 7" << std::endl;
-        	}
-        	else if (p_rule24 > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
-        	{
-        		mpCompartment->removeAgent(pAgent); /*Rule 24*- TH17 can die in GLN*/
-        		continue;
-        	}
-        	else if ((itregConcentration > ENISI::Threshold)
-        			&& (p_rule35 > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()))
-        	{
-        		newState = TcellState::iTREG; /*Rule 35*/
-        		//pAgent->setState(newState);
-        		//LocalFile::debug() << "I am here 8" << std::endl;
-        	}
-        	/*if ((mpCompartment->gridBorders()->distanceFromBorder(pt.coords(), Borders::Y, Borders::LOW))< 0.5 //TODO - CRITICAL Determine this value
-					        && (p_rule32 > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()))
+			if (p_alltrep / naiveTConcentration > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
 			{
-			    Rule 32 - Movement of Th17 from GLN to LP
-				std::vector<double> Location;
-                mpCompartment->getLocation(pAgent->getId(), Location);
-                Location[Borders::Y] -= 1.01 * mpCompartment->spaceBorders()->distanceFromBorder(Location, Borders::Y, Borders::LOW);
-                mpCompartment->moveTo(pAgent->getId(), Location);
-                continue;
-            }*/
-          }
-        if (state == TcellState::iTREG)
-          {
-            if ((th17Concentration > ENISI::Threshold)
-                && (p_rule37 > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()))
-              {
-                newState = TcellState::TH17; /*Rule 37*/
-                //pAgent->setState(newState);
-                //LocalFile::debug() << "I am here 9" << std::endl;
-              }
-            else if((th1Concentration > ENISI::Threshold)
-                && (p_rule38 > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()))
-              {
-                newState = TcellState::TH17;/*Rule 38*//*When iTREG is in contact with TH1 in GLN, iTREG changes to TH17*/
-                //pAgent->setState(newState);
-                //LocalFile::debug() << "I am here 10" << std::endl;
-              }
-            if (p_rule26 > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
-			  {
-				mpCompartment->removeAgent(pAgent); /*Rule 26*- iTREG can die in GLN*/
+				mpCompartment->getLocation(pAgent->getId(), Location);
+				mpCompartment->addAgent(new Agent(Agent::Tcell, pAgent->getState()), Location);
 				continue;
-			  }
-          }
-        if (mpCompartment->gridBorders()->distanceFromBorder(pt.coords(), Borders::Y, Borders::LOW) < 0.5
-            && state == TcellState::iTREG
-            && (p_rule33 > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()))//Rule 32
-          {
-            std::vector<double> Location;
-            mpCompartment->getLocation(pAgent->getId(), Location);
-            Location[Borders::Y] -= 1.01 * mpCompartment->spaceBorders()->distanceFromBorder(Location, Borders::Y, Borders::LOW);
-            mpCompartment->moveTo(pAgent->getId(), Location);
-            continue;
-          }
-        if (mpCompartment->gridBorders()->distanceFromBorder(pt.coords(), Borders::Y, Borders::LOW) < 0.5
-            && state == TcellState::TH17
-            && (p_rule32 > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()))/*Rule 32*/
-          {
-            std::vector<double> Location;
-            mpCompartment->getLocation(pAgent->getId(), Location);
-            Location[Borders::Y] -= 1.01 * mpCompartment->spaceBorders()->distanceFromBorder(Location, Borders::Y, Borders::LOW);
-            mpCompartment->moveTo(pAgent->getId(), Location);
-            continue;
-          }
-
-        if (mpCompartment->gridBorders()->distanceFromBorder(pt.coords(), Borders::Y, Borders::LOW) < 0.5
-            && state == TcellState::TH1
-            && (p_rule32 > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()))/*Rule 32*/
-          {
-            std::vector<double> Location;
-            mpCompartment->getLocation(pAgent->getId(), Location);
-            Location[Borders::Y] -= 1.01 * mpCompartment->spaceBorders()->distanceFromBorder(Location, Borders::Y, Borders::LOW);
-            mpCompartment->moveTo(pAgent->getId(), Location);
-            continue;
-          }
-        if (state == TcellState::TH1)
-        {
-        	if (p_rule27 > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
-        	{
-        		mpCompartment->removeAgent(pAgent); /*Rule 27*- Th1 can die in LP*/
-        		continue;
-        	}
-        }
-      }// end of the Compartment Type = Compartment::GLN
-    if (mpCompartment->getType() == Compartment::lamina_propria)
-      {
-        if (p_rule41 > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()
-	   && TotalTcellcap > (naiveTConcentration + th17Concentration + th1Concentration + itregConcentration))
-          {
-            mpCompartment->getLocation(pAgent->getId(), Location);
-            mpCompartment->addAgent(new Agent(Agent::Tcell, pAgent->getState()), Location);
-            continue;
-            // TODO CRITICAL Proliferation can always happen it is not condition dependent - FIXED
-            // addCellAt(TcellState::NAIVE, loc); /*Rule 41* - nT can 'proliferate' when in contact with nT in Propria */
-          }
-        if (state == TcellState::NAIVE)
-          {
-            if ((mpCompartment->cytokineValue("eIL10", pt) > p_rule31a * mpCompartment->cytokineValue("eIFNg", pt))
-                && (macrophageregConcentration > ENISI::Threshold)
-                && (p_rule31 > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()))
-              {
-                newState = TcellState::Tr; //Rule 31: if nT is in contact with regulatory macrophages, and if IL10> a* IFNg, then nT -> Tr
-                //LocalFile::debug() << "I am here 0" << std::endl;
-              }
-            if (p_naiveTcelldeath > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
-            {
-            	mpCompartment->removeAgent(pAgent); /*Rule naiveTcelldeath*- Naive T cell can die in LP*/
-            	continue;
-            }
-          }
-        if (state == TcellState::iTREG)
-          {
-            if ((th1Concentration > ENISI::Threshold)
-                && (p_rule19 > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()) && (dIL10 > p_IL10))
-              {
-                newState = TcellState::TH17; /*Rule 19*/
-                //pAgent->setState(newState);
-                //LocalFile::debug() << "I am here 3" << std::endl;
-              }
-            else if (eDCConcentration > ENISI::Threshold
-                && (p_rule20 > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()))
-              {
-                newState = TcellState::TH17; /*Rule 20*/
-                pAgent->setState(newState);
-                //LocalFile::debug() << "I am here 6" << std::endl;
-              }
-            else if (th17Concentration > ENISI::Threshold
-                && (p_rule21 > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()))
-              {
-                newState = TcellState::TH17; /*Rule 22*/
-                //pAgent->setState(newState);
-                //LocalFile::debug() << "I am here 4" << std::endl;
-              }
-	    else if (damagedEpithelialCellConcentration > ENISI::Threshold 
-		&& (p_rule18 > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()))
-	      {
-		newState = TcellState::TH17; 
-	      }
-            if (p_rule26 > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
-              {
-                mpCompartment->removeAgent(pAgent); /*Rule 26*- iTREG can die in LP*/
-                continue;
-              }
+			}
+			if(state == TcellState::NAIVE)
+			{
+				if (eDCConcentration  > ENISI::Threshold)
+				{
+					if (dIFNg > p_IFNg
+							|| p_th1diff > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+					{
+						newState = TcellState::TH1;
+						pAgent->setState(newState);
+					}
+					if (p_th17diff > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()
+							|| (dIL17 > p_IL17))
+					{
+						newState = TcellState::TH17;
+						pAgent->setState(newState);
+					}
+				}
+				if (tDCConcentration > ENISI::Threshold)
+				{
+					if (dIL10 > p_IL10
+							|| (p_tregdiff > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()))
+					{
+						newState = TcellState::iTREG;
+						pAgent->setState(newState);
+					}
+				}
+				if (p_ntdeath > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+				{
+					mpCompartment->removeAgent(pAgent);
+					continue;
+				}
+			}
+			if (state == TcellState::TH17)
+			{
+				if  ((tDCConcentration > ENISI::Threshold)
+						&& (p_th17treg > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()))
+				{
+					newState = TcellState::iTREG;
+					pAgent->setState(newState);
+				}
+				if (p_th17cyto > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+				{
+					mpCompartment->cytokineValue("eIL17", pt) += 5;
+				}
+				if (mpCompartment->gridBorders()->distanceFromBorder(pt.coords(), Borders::Y, Borders::LOW) < 0.5
+						&& (p_tcelltrans > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()))/*Rule 32*/
+				{
+					std::vector<double> Location;
+					mpCompartment->getLocation(pAgent->getId(), Location);
+					Location[Borders::Y] -= 1.01 * mpCompartment->spaceBorders()->distanceFromBorder(Location, Borders::Y, Borders::LOW);
+					mpCompartment->moveTo(pAgent->getId(), Location);
+					continue;
+				}
+				if (p_th17death > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+				{
+					mpCompartment->removeAgent(pAgent);
+					continue;
+				}
+			}
+			if (state == TcellState::iTREG)
+			{
+				if  ((eDCConcentration > ENISI::Threshold)
+						&& (p_tregth17 > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()))
+				{
+					newState = TcellState::TH17;
+					pAgent->setState(newState);
+				}
+				if (p_tregcyto > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+				{
+					mpCompartment->cytokineValue("eIL10", pt) += 5;
+				}
+				if (mpCompartment->gridBorders()->distanceFromBorder(pt.coords(), Borders::Y, Borders::LOW) < 0.5
+						&& (p_tcelltrans > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()))/*Rule 32*/
+				{
+					std::vector<double> Location;
+					mpCompartment->getLocation(pAgent->getId(), Location);
+					Location[Borders::Y] -= 1.01 * mpCompartment->spaceBorders()->distanceFromBorder(Location, Borders::Y, Borders::LOW);
+					mpCompartment->moveTo(pAgent->getId(), Location);
+					continue;
+				}
+				if (p_tregdeath > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+				{
+					mpCompartment->removeAgent(pAgent);
+					continue;
+				}
+			}
+			if (state == TcellState::TH1)
+			{
+				if (p_th1cyto > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+				{
+					mpCompartment->cytokineValue("eIFNg", pt) += 5;
+				}
+				if (mpCompartment->gridBorders()->distanceFromBorder(pt.coords(), Borders::Y, Borders::LOW) < 0.5
+						&& (p_tcelltrans > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()))/*Rule 32*/
+				{
+					std::vector<double> Location;
+					mpCompartment->getLocation(pAgent->getId(), Location);
+					Location[Borders::Y] -= 1.01 * mpCompartment->spaceBorders()->distanceFromBorder(Location, Borders::Y, Borders::LOW);
+					mpCompartment->moveTo(pAgent->getId(), Location);
+					continue;
+				}
+				if (p_th1death > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+				{
+					mpCompartment->removeAgent(pAgent);
+					continue;
+				}
+			}
+		}
+		if (mpCompartment->getType() == Compartment::lamina_propria)
+		{
+			if (state == TcellState::NAIVE)
+			{
+				if (p_ntdeath > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+				{
+					mpCompartment->removeAgent(pAgent);
+					continue;
+				}
+			}
+			if (state == TcellState::iTREG)
+			{
+				if ((trmacConcentration > ENISI::Threshold || tDCConcentration > ENISI::Threshold)
+						&& p_tregrep > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+				{
+					mpCompartment->getLocation(pAgent->getId(), Location);
+					mpCompartment->addAgent(new Agent(Agent::Tcell, pAgent->getState()), Location);
+					continue;
+				}
+				if (eDCConcentration > ENISI::Threshold || ((IL17 + IL6) > (TGFb + IL10))
+						&& (p_tregth17 > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()))
+				{
+					newState = TcellState::TH17;
+					pAgent->setState(newState);
+				}
+				if (p_tregcyto > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+				{
+					mpCompartment->cytokineValue("eIL10", pt) += 5;
+				}
+				if (p_tregdeath > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+				{
+					mpCompartment->removeAgent(pAgent);
+					continue;
+				}
+			}
+			if (state == TcellState::TH17)
+			{
+				if ((intmacConcentration > ENISI::Threshold || eDCConcentration > ENISI::Threshold || epiinfConcentration > ENISI::Threshold)
+						&& p_th17rep > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+				{
+					mpCompartment->getLocation(pAgent->getId(), Location);
+					mpCompartment->addAgent(new Agent(Agent::Tcell, pAgent->getState()), Location);
+					continue;
+				}
+				if (tDCConcentration > ENISI::Threshold || ((IL17 + IL6) < (TGFb + IL10))
+						&& (p_th17treg > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()))
+				{
+					newState = TcellState::iTREG;
+					pAgent->setState(newState);
+				}
+				if (p_th17cyto > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+				{
+					mpCompartment->cytokineValue("eIL17", pt) += 5;
+				}
+				if (p_th17death > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+				{
+					mpCompartment->removeAgent(pAgent);
+					continue;
+				}
+			}
+			if (state == TcellState::TH1)
+			{
+				if ((infmacConcentration > ENISI::Threshold || eDCConcentration > ENISI::Threshold || epiinfConcentration > ENISI::Threshold)
+						&& p_th1rep > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+				{
+					mpCompartment->getLocation(pAgent->getId(), Location);
+					mpCompartment->addAgent(new Agent(Agent::Tcell, pAgent->getState()), Location);
+					continue;
+				}
+				if (p_th1cyto > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+				{
+					mpCompartment->cytokineValue("eIFNg", pt) += 5;
+				}
+				if (p_th1death > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+				{
+					mpCompartment->removeAgent(pAgent);
+					continue;
+				}
+			}
+		}
 	}
-        if (state == TcellState::TH17)
-          {
-            if (p_rule24 > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()) {
-                mpCompartment->removeAgent(pAgent); /*Rule 24*- TH17 can die in LP*/
-                continue;
-            }
-            else if ((tDCConcentration  > ENISI::Threshold)
-                && (p_rule23 > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()))
-              {
-                newState = TcellState::iTREG; /*Rule 23*/
-                //pAgent->setState(newState);
-                //LocalFile::debug() << "I am here 5" << std::endl;
-              }
-            else if (itregConcentration > ENISI::Threshold
-                && (p_rule22 > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()))
-              {
-                newState = TcellState::iTREG; /*Rule 22*/
-                //pAgent->setState(newState);
-                //LocalFile::debug() << "I am here 4" << std::endl;
-              }
-          }
-        if (state == TcellState::TH1)
-          {
-            if (p_rule27 > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
-              {
-                mpCompartment->removeAgent(pAgent); /*Rule 27*- Th1 can die in LP*/
-                continue;
-              }
-          }
-        if (state == TcellState::Tr)
-        {
-        	if (p_rule27 > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
-        	{
-        		mpCompartment->removeAgent(pAgent); /*Rule death of Tr cells*- Tr cells die in LP*/
-        		continue;
-        	}
-        }
-        /*if (state == TcellState::TH17)
-          {
-            if (itregConcentration > ENISI::Threshold
-                && (p_rule22 > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()))
-              {
-                newState = TcellState::iTREG; Rule 22
-                pAgent->setState(newState);
-                //LocalFile::debug() << "I am here 4" << std::endl;
-              }
-          }*/
-      }//END of LP
-
-    pAgent->setState(newState);
-
-    //Cytokine are released for the old state of the Tcells.
-    if (state == TcellState::TH1)
-      { //Rule 29 If T cell state is TH1, then release IFNg
-        mpCompartment->cytokineValue("eIFNg", pt) += dIFNg; // production based on ODE for IFNg
-      }
-    if (state == TcellState::Tr || state == TcellState::iTREG) {
-        //Rule 30, If T cell state is Tr then release IL10 [or iTREG]
-        mpCompartment->cytokineValue("eIL10", pt) += dIL10; // production based on ODE for IL10
-	LocalFile::debug() << "IL10 cytokine release" << dIL10 << std::endl ;
-    }
-    if (state == TcellState::TH17)
-      { //Rule 29 If T cell state is TH1, then release IFNg
-        mpCompartment->cytokineValue("eIL17", pt) += dIL17; //production based on ODE for IL17
-      }
-  }
-}//end of act
+}
 
 // virtual
 void TcellGroup::move()
 {
-  // TODO CRITICAL Determine the maximum speed
-  double MaxSpeed = 8.0;
+	// TODO CRITICAL Determine the maximum speed
+	double MaxSpeed = 8.0;
 
-  // Find all local agents and move them
-  Compartment::LocalIterator itLocal = mpCompartment->localBegin();
-  Compartment::LocalIterator endLocal = mpCompartment->localEnd();
+	// Find all local agents and move them
+	Compartment::LocalIterator itLocal = mpCompartment->localBegin();
+	Compartment::LocalIterator endLocal = mpCompartment->localEnd();
 
-  for (; itLocal != endLocal; ++itLocal)
+	for (; itLocal != endLocal; ++itLocal)
 	{
-      mpCompartment->moveRandom((*itLocal)->getId(), MaxSpeed);
+		mpCompartment->moveRandom((*itLocal)->getId(), MaxSpeed);
 	}
 }
 
 // virtual
 void TcellGroup::write(const repast::Point<int> & pt)
 {
-  std::ostream & o = LocalFile::instance(mpCompartment->getName())->stream();
-  std::vector< Agent * > Tcells;
-  mpCompartment->getAgents(pt, Agent::Tcell, Tcells);
-  Concentration TcellConcentration;
-  concentrations(Agent::Tcell, Tcells, TcellConcentration);
+	std::ostream & o = LocalFile::instance(mpCompartment->getName())->stream();
+	std::vector< Agent * > Tcells;
+	mpCompartment->getAgents(pt, Agent::Tcell, Tcells);
+	Concentration TcellConcentration;
+	concentrations(Agent::Tcell, Tcells, TcellConcentration);
 
-  Concentration::const_iterator it = TcellConcentration.begin();
-  Concentration::const_iterator end = TcellConcentration.end();
+	Concentration::const_iterator it = TcellConcentration.begin();
+	Concentration::const_iterator end = TcellConcentration.end();
 
-  for (int i = 0; it != end; ++it, ++i)
-    {
-	  if (i) o << ", ";
+	for (int i = 0; it != end; ++it, ++i)
+	{
+		if (i) o << ", ";
 
-	  o << "[" << i << "] = " << *it;
-  }
+		o << "[" << i << "] = " << *it;
+	}
 }

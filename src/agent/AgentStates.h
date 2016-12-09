@@ -28,31 +28,38 @@ public:
   static Agent::Type Type;
 };
 
-class BacteriaState
+class BacteriaPState
 {
 public:
-  enum State {DEAD, INFECTIOUS, TOLEROGENIC, KEEP_AT_END};
+  enum State {NAIVE, FAECALI, BIFIDO, LACTO, PARABAC, SBOUL, ERYSI, DEAD, KEEP_AT_END};
+  static Agent::Type Type;
+};
+
+class NeutrophilState
+{
+public:
+  enum State {BASE, ACTIVATED, DEAD, KEEP_AT_END};
   static Agent::Type Type;
 };
 
 class MacrophageState
 {
 public:
-  enum State {MONOCYTE/*base state*/, REGULATORY, INFLAMMATORY, DEAD, KEEP_AT_END};
+  enum State {MONOCYTE/*base state*/, RESIDENT, INFLAMMATORY, INTERMEDIATE, DEAD, KEEP_AT_END};
   static Agent::Type Type;
 };
 
-class HPyloriState
+class BacteriaDAState
 {
 public:
-  enum State {NAIVE, DEAD, KEEP_AT_END};
+  enum State {NAIVE, KLEB, ECOLI, MYCO, CORIO, ENTERO, DEAD, KEEP_AT_END};
   static Agent::Type Type;
 };
 
 class EpithelialCellState
 {
 public:
-  enum State {HEALTHY, DAMAGED, DEAD, KEEP_AT_END};
+  enum State {HEALTHY, DAMAGED, INFLAMED, DEAD, KEEP_AT_END};
   static Agent::Type Type;
 };
 

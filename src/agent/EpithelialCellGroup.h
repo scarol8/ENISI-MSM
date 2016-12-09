@@ -11,23 +11,40 @@ namespace ENISI
 class EpithelialCellGroup: public GroupInterface
 {
 public:
-  EpithelialCellGroup(Compartment * pCompartment, const double & concentrations);
-  virtual std::string classname() const {return "EpithelialCellGroup";}
+	EpithelialCellGroup(Compartment * pCompartment, const double & concentrations);
+	virtual std::string classname() const {return "EpithelialCellGroup";}
 
 protected:
-  virtual void act(const repast::Point<int> &);
-  virtual void move();
-  virtual void write(const repast::Point<int> & pt);
+	virtual void act(const repast::Point<int> &);
+	virtual void move();
+	virtual void write(const repast::Point<int> & pt);
 
 private:
-  double p_EpiCellDeath;//Rule 11
-  double p_EpiProliferation;//Rule 8
-  double p_rule10a;
-  double p_rule10b;
-  double p_rule12;//Rule 12
-  double p_rule10a_infectiousBacteriaConcentration;
-  double p_rule10b_cytokineConcentration;
-  double p_rule10b_random;
+	double p_epiecolidam;
+	double p_epibifidoprot;
+	double p_epilactoprot;
+	double p_epimycodam;
+	double p_epineutdam;
+	double p_epimacdam;
+	double p_epith1inf;
+	double p_epith17inf;
+	double p_epidaminf;
+	double p_epirep;
+	double p_epideath;
+	double p_epiiecolidam;
+	double p_epiimycodam;
+	double p_epiineutdam;
+	double p_epiimacdam;
+	double p_epiil10;
+	double p_epiitrheal;
+	double p_epicyto;
+	double p_epiideath;
+	double p_epidneutdam;
+	double p_epidmacdam;
+	double p_epidtrheal;
+	double p_epiddeath;
+	double p_epidremove;
+	double p_epidead;
 };
 
 } // namespace ENISI

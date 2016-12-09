@@ -6,7 +6,7 @@ using namespace ENISI;
 // static
 int Agent::agentCount = 0;
 // static
-const char * Agent::Names[] = {"Bacteria", "Dentritics", "EpithelialCell", "HPylori", "ImmuneCell", "Macrophage", "Tcell", "DiffuserValues"};
+const char * Agent::Names[] = {"BacteriaP", "Dendritics", "EpithelialCell", "BacteriaDA", "ImmuneCell", "Macrophage", "Tcell", "DiffuserValues", "Neutrophil"};
 
 Agent::Agent():
   id(),
@@ -74,11 +74,11 @@ std::string Agent::classname()
 {
   switch (id.agentType())
     {
-      case Bacteria:
+      case BacteriaP:
         return Names[0];
         break;
 
-      case Dentritics:
+      case Dendritics:
         return Names[1];
         break;
 
@@ -86,7 +86,7 @@ std::string Agent::classname()
         return Names[2];
         break;
 
-      case HPylori:
+      case BacteriaDA:
         return Names[3];
         break;
 
@@ -104,6 +104,10 @@ std::string Agent::classname()
 
       case DiffuserValues:
         return Names[7];
+        break;
+
+      case Neutrophil:
+        return Names[8];
         break;
     }
 
