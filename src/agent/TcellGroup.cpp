@@ -126,7 +126,8 @@ void TcellGroup::act(const repast::Point<int> & pt)
 
 		if (mpCompartment->getType() == Compartment::gastric_lymph_node)
 		{
-			if (p_allTcap > (naiveTConcentration + th1Concentration + tregConcentration + th17Concentration * repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+			if (p_alltrep > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()
+				&& p_allTcap > (naiveTConcentration + th1Concentration + tregConcentration + th17Concentration * repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
 			{
 				mpCompartment->getLocation(pAgent->getId(), Location);
 				mpCompartment->addAgent(new Agent(Agent::Tcell, pAgent->getState()), Location);
@@ -242,12 +243,6 @@ void TcellGroup::act(const repast::Point<int> & pt)
 		}
 		if (mpCompartment->getType() == Compartment::lamina_propria)
 		{
-			if (p_allTcap > (naiveTConcentration + th1Concentration + tregConcentration + th17Concentration * repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
-			{
-				mpCompartment->getLocation(pAgent->getId(), Location);
-				mpCompartment->addAgent(new Agent(Agent::Tcell, pAgent->getState()), Location);
-				continue;
-			}
 			if (state == TcellState::NAIVE)
 			{
 				if (p_ntdeath > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
@@ -259,7 +254,8 @@ void TcellGroup::act(const repast::Point<int> & pt)
 			if (state == TcellState::iTREG)
 			{
 				if ((trmacConcentration > ENISI::Threshold || tDCConcentration > ENISI::Threshold)
-						&& p_tregrep > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+						&& p_tregrep > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()
+				   		&& p_allTcap > (naiveTConcentration + th1Concentration + tregConcentration + th17Concentration * repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
 				{
 					mpCompartment->getLocation(pAgent->getId(), Location);
 					mpCompartment->addAgent(new Agent(Agent::Tcell, pAgent->getState()), Location);
@@ -284,7 +280,8 @@ void TcellGroup::act(const repast::Point<int> & pt)
 			if (state == TcellState::TH17)
 			{
 				if ((intmacConcentration > ENISI::Threshold || eDCConcentration > ENISI::Threshold || epiinfConcentration > ENISI::Threshold)
-						&& p_th17rep > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+						&& p_th17rep > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()
+				   		&& p_allTcap > (naiveTConcentration + th1Concentration + tregConcentration + th17Concentration * repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
 				{
 					mpCompartment->getLocation(pAgent->getId(), Location);
 					mpCompartment->addAgent(new Agent(Agent::Tcell, pAgent->getState()), Location);
@@ -309,7 +306,8 @@ void TcellGroup::act(const repast::Point<int> & pt)
 			if (state == TcellState::TH1)
 			{
 				if ((infmacConcentration > ENISI::Threshold || eDCConcentration > ENISI::Threshold || epiinfConcentration > ENISI::Threshold)
-						&& p_th1rep > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+						&& p_th1rep > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()
+				   		&& p_allTcap > (naiveTConcentration + th1Concentration + tregConcentration + th17Concentration * repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
 				{
 					mpCompartment->getLocation(pAgent->getId(), Location);
 					mpCompartment->addAgent(new Agent(Agent::Tcell, pAgent->getState()), Location);
