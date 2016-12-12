@@ -49,7 +49,7 @@ BacteriaDAGroup::BacteriaDAGroup(Compartment * pCompartment, const double & conc
 	pModel->getValue("p_enterolumkill", p_enterolumkill);
 	pModel->getValue("p_enterolumdeath", p_enterolumdeath);
 	pModel->getValue("p_enterolumrep", p_enterolumrep);
-
+	pModel->getValue("p_allbacSpace", p_allbacSpace);
 }
 
 void BacteriaDAGroup::act(const repast::Point<int> & pt){
@@ -201,8 +201,9 @@ void BacteriaDAGroup::act(const repast::Point<int> & pt){
 					continue;
 				}
 				// proliferation
-				if ((p_kleblumrep / (klebConcentration + 1) > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
-						&& (bifidoConcentration + lactoConcentration) < p_CommProInh)
+				if ((p_kleblumrep > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+						&& (bifidoConcentration + lactoConcentration) < p_CommProInh
+				   		&& klebConcentration < p_allbacSpace)
 				{
 					mpCompartment->getLocation(pAgent->getId(), Location);
 					mpCompartment->addAgent(new Agent(Agent::BacteriaDA, pAgent->getState()), Location);
@@ -263,8 +264,9 @@ void BacteriaDAGroup::act(const repast::Point<int> & pt){
 					continue;
 				}
 				// proliferation
-				if ((p_ecolilumrep / (ecoliConcentration + 1) > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
-						&& (bifidoConcentration + lactoConcentration) < p_CommProInh)
+				if ((p_ecolilumrep > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+						&& (bifidoConcentration + lactoConcentration) < p_CommProInh
+				   		&& ecoliConcentration < p_allbacSpace)
 				{
 					mpCompartment->getLocation(pAgent->getId(), Location);
 					mpCompartment->addAgent(new Agent(Agent::BacteriaDA, pAgent->getState()), Location);
@@ -294,8 +296,9 @@ void BacteriaDAGroup::act(const repast::Point<int> & pt){
 					continue;
 				}
 				// proliferation
-				if ((p_ecolilprep / (ecoliConcentration + 1) > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
-						&& trmacConcentration > ENISI::Threshold)
+				if ((p_ecolilprep > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+						&& trmacConcentration > ENISI::Threshold
+				   		&& ecoliConcentration < p_allbacSpace)
 				{
 					mpCompartment->getLocation(pAgent->getId(), Location);
 					mpCompartment->addAgent(new Agent(Agent::BacteriaDA, pAgent->getState()), Location);
@@ -332,8 +335,9 @@ void BacteriaDAGroup::act(const repast::Point<int> & pt){
 					continue;
 				}
 				// proliferation
-				if ((p_mycolumrep / (mycoConcentration + 1) > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
-						&& (bifidoConcentration + lactoConcentration) < p_CommProInh)
+				if ((p_mycolumrep > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+						&& (bifidoConcentration + lactoConcentration) < p_CommProInh
+				   		&& mycoConcentration < p_allbacSpace)
 				{
 					mpCompartment->getLocation(pAgent->getId(), Location);
 					mpCompartment->addAgent(new Agent(Agent::BacteriaDA, pAgent->getState()), Location);
@@ -363,7 +367,8 @@ void BacteriaDAGroup::act(const repast::Point<int> & pt){
 					continue;
 				}
 				// proliferation
-				if (p_mycolprep / (mycoConcentration + 1) > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+				if (p_mycolprep > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()
+				   		&& mycoConcentration < p_allbacSpace)
 				{
 					mpCompartment->getLocation(pAgent->getId(), Location);
 					mpCompartment->addAgent(new Agent(Agent::BacteriaDA, pAgent->getState()), Location);
@@ -389,8 +394,9 @@ void BacteriaDAGroup::act(const repast::Point<int> & pt){
 					continue;
 				}
 				// proliferation
-				if ((p_coriolumrep / (corioConcentration + 1) > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
-						&& (bifidoConcentration + lactoConcentration) < p_CommProInh)
+				if ((p_coriolumrep > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+						&& (bifidoConcentration + lactoConcentration) < p_CommProInh
+				   		&& corioConcentration < p_allbacSpace)
 				{
 					mpCompartment->getLocation(pAgent->getId(), Location);
 					mpCompartment->addAgent(new Agent(Agent::BacteriaDA, pAgent->getState()), Location);
@@ -415,8 +421,9 @@ void BacteriaDAGroup::act(const repast::Point<int> & pt){
 					continue;
 				}
 				// proliferation
-				if ((p_enterolumrep / (enteroConcentration + 1) > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
-						&& (bifidoConcentration + lactoConcentration) < p_CommProInh)
+				if ((p_enterolumrep > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+						&& (bifidoConcentration + lactoConcentration) < p_CommProInh
+				   		&& enteroConcentration < p_allbacSpace)
 				{
 					mpCompartment->getLocation(pAgent->getId(), Location);
 					mpCompartment->addAgent(new Agent(Agent::BacteriaDA, pAgent->getState()), Location);
