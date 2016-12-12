@@ -46,6 +46,7 @@ private:
 	double p_erysikill;
 	double p_erysideath;
 	double p_erysirep;
+	double p_allbacSpace;
 
 };
 
