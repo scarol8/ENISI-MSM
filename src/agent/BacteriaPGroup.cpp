@@ -45,6 +45,8 @@ BacteriaPGroup::BacteriaPGroup(Compartment * pCompartment, const double & concen
 	pModel->getValue("p_erysirep", p_erysirep);
 	pModel->getValue("p_maxPara", p_maxPara);
 	pModel->getValue("p_CorioInh", p_CorioInh);
+	pModel->getValue("p_allbacSpace", p_allbacSpace);									  
+									  
 }
 
 void BacteriaPGroup::act(const repast::Point<int> & pt)
@@ -153,7 +155,8 @@ void BacteriaPGroup::act(const repast::Point<int> & pt)
 					continue;
 				}
 				// proliferation
-				if (p_faecalirep / (faecaliConcentration + 1) > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+				if (p_faecalirep > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()
+				   		&& faecaliConcentration < p_allbacSpace)
 				{
 					mpCompartment->getLocation(pAgent->getId(), Location);
 					mpCompartment->addAgent(new Agent(Agent::BacteriaP, pAgent->getState()), Location);
@@ -178,7 +181,8 @@ void BacteriaPGroup::act(const repast::Point<int> & pt)
 					continue;
 				}
 				// proliferation
-				if (p_bifidorep / (bifidoConcentration + 1) > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+				if (p_bifidorep > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()
+				   		&& bifidoConcentration < p_allbacSpace)
 				{
 					mpCompartment->getLocation(pAgent->getId(), Location);
 					mpCompartment->addAgent(new Agent(Agent::BacteriaP, pAgent->getState()), Location);
@@ -203,7 +207,8 @@ void BacteriaPGroup::act(const repast::Point<int> & pt)
 					continue;
 				}
 				// proliferation
-				if (p_lactorep / (lactoConcentration + 1) > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+				if (p_lactorep > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()
+				   		&& lactoConcentration < p_allbacSpace)
 				{
 					mpCompartment->getLocation(pAgent->getId(), Location);
 					mpCompartment->addAgent(new Agent(Agent::BacteriaP, pAgent->getState()), Location);
@@ -228,7 +233,8 @@ void BacteriaPGroup::act(const repast::Point<int> & pt)
 					continue;
 				}
 				// proliferation
-				if (p_parabacrep / (parabacConcentration + 1) > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+				if (p_parabacrep > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()
+				   		&& parabacConcentration < p_allbacSpace)
 				{
 					mpCompartment->getLocation(pAgent->getId(), Location);
 					mpCompartment->addAgent(new Agent(Agent::BacteriaP, pAgent->getState()), Location);
@@ -253,7 +259,8 @@ void BacteriaPGroup::act(const repast::Point<int> & pt)
 					continue;
 				}
 				// proliferation
-				if (p_sboulrep / (sboulConcentration + 1) > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+				if (p_sboulrep > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()
+				   		&& sboulConcentration < p_allbacSpace)
 				{
 					mpCompartment->getLocation(pAgent->getId(), Location);
 					mpCompartment->addAgent(new Agent(Agent::BacteriaP, pAgent->getState()), Location);
@@ -279,7 +286,8 @@ void BacteriaPGroup::act(const repast::Point<int> & pt)
 					continue;
 				}
 				// proliferation
-				if (p_erysirep / (erysiConcentration + 1) > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+				if (p_erysirep > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()
+				   		&& erysiConcentration < p_allbacSpace)
 				{
 					mpCompartment->getLocation(pAgent->getId(), Location);
 					mpCompartment->addAgent(new Agent(Agent::BacteriaP, pAgent->getState()), Location);
