@@ -102,6 +102,7 @@ gastric_lymph_node.eIFNg.degradation = 0.02
 
 # Parameter rules
 
+p_allbacSpace = 
 p_kleb =
 p_klebtrans = 
 p_kleblumkill =
@@ -243,6 +244,7 @@ p_th1death =
 p_th17rep =
 p_tregrep =
 p_th1rep =
+p_allTcap =                                                           
 
 #### From HP Model ####
 p_rule10a =  1 l^2/#*d
