@@ -155,7 +155,7 @@ void MacrophageGroup::act(const repast::Point<int> & pt)
 				}
 			}
 			if ((IFNg > ENISI::Threshold || th1Concentration > ENISI::Threshold)
-					p_monoinf > repast::Random::instance()-> createUniDoubleGenerator(0.0, 1.0).next())
+					&& p_monoinf > repast::Random::instance()-> createUniDoubleGenerator(0.0, 1.0).next())
 			{
 				newState = MacrophageState::INFLAMMATORY;
 				pAgent->setState(newState);
