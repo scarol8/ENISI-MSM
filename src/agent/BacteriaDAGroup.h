@@ -56,6 +56,7 @@ private:
 	double p_enterolumrep;
 	double p_CommProInh;
 	double p_ErysiProInh;
+	double p_allbacSpace;
 
 };
 
