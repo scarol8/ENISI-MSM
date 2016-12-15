@@ -14,7 +14,7 @@ DendriticsGroup::DendriticsGroup(Compartment * pCompartment, const double & conc
 	size_t LocalCount = mpCompartment->localCount(concentrations);
 
 	for (size_t i = 0; i < LocalCount; i++){
-		mpCompartment->addAgentToRandomLocation(new Agent(Agent::Dentritics, DendriticState::IMMATURE));
+		mpCompartment->addAgentToRandomLocation(new Agent(Agent::Dendritics, DendriticState::IMMATURE));
 	}
 
 	const Properties * pModel = Properties::instance(Properties::model);
@@ -86,15 +86,15 @@ void DendriticsGroup::act(const repast::Point<int> & pt)
 	double faecaliConcentration = BacteriaPConcentration[BacteriaPState::FAECALI];
 	double parabacConcentration = BacteriaPConcentration[BacteriaPState::PARABAC];
 	double sboulConcentration = BacteriaPConcentration[BacteriaPState::SBOUL];
-	double dabacConcentration = BacteriaDAConcentration;
+	double dabacConcentration = BacteriaDAConcentration[BacteriaDAState::MYCO] + BacteriaDAConcentration[BacteriaDAState::ECOLI] + BacteriaDAConcentration[BacteriaDAState::KLEB] + BacteriaDAConcentration[BacteriaDAState::ENTERO] + BacteriaDAConcentration[BacteriaDAState::CORIO];
 	double epidamConcentration = EpithelialCellConcentration[EpithelialCellState::DAMAGED];
 	double epiinfConcentration = EpithelialCellConcentration[EpithelialCellState::INFLAMED];
 	double epihealConcentration = EpithelialCellConcentration[EpithelialCellState::HEALTHY];
 	double edcConcentration = DendriticsConcentration[DendriticState::EFFECTOR];
 	double itregConcentration = TcellConcentration[TcellState::iTREG];
 
-	std::vector< Agent * >::iterator it = Dentritics.begin();
-	std::vector< Agent * >::iterator end = Dentritics.end();
+	std::vector< Agent * >::iterator it = Dendritics.begin();
+	std::vector< Agent * >::iterator end = Dendritics.end();
 
 	for (; it != end; ++it){
 		Agent * pAgent = *it;
@@ -154,7 +154,7 @@ void DendriticsGroup::act(const repast::Point<int> & pt)
 					&& (p_idcrec > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()))
 			{
 				mpCompartment->getLocation(pAgent->getId(), Location);
-				mpCompartment->addAgent(new Agent(Agent::Dentritics, pAgent->getState()), Location);
+				mpCompartment->addAgent(new Agent(Agent::Dendritics, pAgent->getState()), Location);
 			}
 		}
 		if (state == DendriticState::EFFECTOR)
