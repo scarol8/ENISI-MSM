@@ -23,7 +23,7 @@ MacrophageGroup::MacrophageGroup(Compartment * pCompartment,
 
 	for (size_t i = 0; i < LocalCount; i++)
 	{
-		mpCompartment->addAgentToRandomLocation(new Agent(Agent::Macrophage, MacrophageState::REGULATORY));
+		mpCompartment->addAgentToRandomLocation(new Agent(Agent::Macrophage, MacrophageState::RESIDENT));
 	}
 
 	const Properties * pModel = Properties::instance(Properties::model);
@@ -49,13 +49,13 @@ void MacrophageGroup::act(const repast::Point<int> & pt)
 {
 	std::vector< double > Location(2, 0);
 
-	std::vector< Agent * > Macrophage;
+	std::vector< Agent * > Macrophages;
 	mpCompartment->getAgents(pt, Agent::Macrophage, Macrophages);
 
-	std::vector< Agent * > BacteriaDA;
+	std::vector< Agent * > BacteriaDAs;
 	mpCompartment->getAgents(pt, Agent::BacteriaDA, BacteriaDAs);
 
-	std::vector< Agent * > Tcell;
+	std::vector< Agent * > Tcells;
 	mpCompartment->getAgents(pt, Agent::Tcell, Tcells);
 
 	std::vector< Agent * > EpithelialCells;
@@ -86,7 +86,7 @@ void MacrophageGroup::act(const repast::Point<int> & pt)
 	double trmacConcentration = MacrophageConcentration[MacrophageState::RESIDENT];
 	double infmacConcentration = MacrophageConcentration[MacrophageState::INFLAMMATORY];
 	double intmacConcentration = MacrophageConcentration[MacrophageState::INTERMEDIATE];
-	double bacConcentration = BacteriaDAConcentration;
+	double bacConcentration = BacteriaDAConcentration[BacteriaDAState::MYCO] + BacteriaDAConcentration[BacteriaDAState::ECOLI] + BacteriaDAConcentration[BacteriaDAState::KLEB];
 	double mycoConcentration = BacteriaDAConcentration[BacteriaDAState::MYCO];
 
 	double IFNg = mpCompartment->cytokineValue("eIFNg", pt);
@@ -108,7 +108,8 @@ void MacrophageGroup::act(const repast::Point<int> & pt)
 	for (; it != end; ++it){
 		Agent * pAgent = *it;
 		MacrophageState::State state = (MacrophageState::State) pAgent->getState();
-
+		MacrophageState::State newState = state;
+		
 		if (state == MacrophageState::RESIDENT)
 		{
 			if (p_trmaccyto > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
@@ -147,11 +148,11 @@ void MacrophageGroup::act(const repast::Point<int> & pt)
 			{
 				newState = MacrophageState::INTERMEDIATE;
 				pAgent->setState(newState);
-				if (BacteriaDA.size() > 0
+				if (BacteriaDAs.size() > 0
 						&& mycoConcentration < ENISI::Threshold)
 				{
-					mpCompartment->removeAgent(BacteriaDA[BacteriaDA.size() - 1]);
-					BacteriaDA.pop_back();
+					mpCompartment->removeAgent(BacteriaDAs[BacteriaDAs.size() - 1]);
+					BacteriaDAs.pop_back();
 				}
 			}
 			if ((IFNg > ENISI::Threshold || th1Concentration > ENISI::Threshold)
@@ -159,11 +160,11 @@ void MacrophageGroup::act(const repast::Point<int> & pt)
 			{
 				newState = MacrophageState::INFLAMMATORY;
 				pAgent->setState(newState);
-				if (BacteriaDA.size() > 0
+				if (BacteriaDAs.size() > 0
 						&& mycoConcentration < ENISI::Threshold)
 				{
-					mpCompartment->removeAgent(BacteriaDA[BacteriaDA.size() - 1]);
-					BacteriaDA.pop_back();
+					mpCompartment->removeAgent(BacteriaDAs[BacteriaDAs.size() - 1]);
+					BacteriaDAs.pop_back();
 				}
 			}
 			if (p_monodeath > repast::Random::instance()-> createUniDoubleGenerator(0.0, 1.0).next())
