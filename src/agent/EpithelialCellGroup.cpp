@@ -188,7 +188,7 @@ void EpithelialCellGroup::act(const repast::Point<int> & pt)
 				mpCompartment->addAgent(new Agent(Agent::EpithelialCell, EpithelialCellState::HEALTHY), Location);
 			}
 
-			if (p_epihdeath > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+			if (p_epideath > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
 			{
 				mpCompartment->removeAgent(pAgent);
 				continue;
@@ -264,6 +264,7 @@ void EpithelialCellGroup::act(const repast::Point<int> & pt)
 			}
 			if (p_epicyto > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
 			{
+				int yOffset = mpCompartment->gridBorders()->distanceFromBorder(pt.coords(), Borders::Y, Borders::HIGH);
 				mpCompartment->cytokineValue("eIL6", pt, 0, yOffset) += 7;
 				mpCompartment->cytokineValue("eIL12", pt, 0, yOffset) += 7;
 			}
