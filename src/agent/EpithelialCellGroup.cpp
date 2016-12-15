@@ -106,6 +106,7 @@ void EpithelialCellGroup::act(const repast::Point<int> & pt)
 	{
 		Agent * pAgent = *it;
 		EpithelialCellState::State state = (EpithelialCellState::State) pAgent->getState();
+		EpithelialCellState::State newState = state;
 
 		if (state == EpithelialCellState::HEALTHY)
 		{
@@ -294,6 +295,7 @@ void EpithelialCellGroup::act(const repast::Point<int> & pt)
 			}
 			if (p_epicyto > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
 			{
+				int yOffset = mpCompartment->gridBorders()->distanceFromBorder(pt.coords(), Borders::Y, Borders::HIGH);
 				mpCompartment->cytokineValue("eIL17", pt, 0, yOffset) += 7;
 				mpCompartment->cytokineValue("eIFNg", pt, 0, yOffset) += 7;
 			}
