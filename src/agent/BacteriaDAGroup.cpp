@@ -131,19 +131,20 @@ void BacteriaDAGroup::act(const repast::Point<int> & pt){
 	double damagedEpithelialCellConcentration = EpithelialCellConcentration[EpithelialCellState::DAMAGED];
 	double inflamedEpithelialCellConcentration = EpithelialCellConcentration[EpithelialCellState::INFLAMED];
 
-	std::vector< Agent * >::iterator it = BacteriaDA.begin();
-	std::vector< Agent * >::iterator end = BacteriaDA.end();
+	std::vector< Agent * >::iterator it = BacteriaDAs.begin();
+	std::vector< Agent * >::iterator end = BacteriaDAs.end();
 
 	for (; it != end; ++it)
 	{
 		Agent * pAgent = *it;
 		BacteriaDAState::State state = (BacteriaDAState::State) pAgent->getState();
+		BacteriaDAState::State newState = state;
 
 		if (state == BacteriaDAState::DEAD) continue;
 
 		if (state == BacteriaDAState::NAIVE)
 		{
-			double bacteriaDAinit = repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+			double bacteriaDAinit = repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next();
 
 		if (bacteriaDAinit > p_kleb)
 		{
