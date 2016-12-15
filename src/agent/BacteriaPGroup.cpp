@@ -89,13 +89,14 @@ void BacteriaPGroup::act(const repast::Point<int> & pt)
 
 	double inflamedEpithelialCellConcentration = EpithelialCellConcentration[EpithelialCellState::INFLAMED];
 
-	std::vector< Agent * >::iterator it = BacteriaPbegin();
-	std::vector< Agent * >::iterator end = BacteriaPend();
+	std::vector< Agent * >::iterator it = BacteriaPs.begin();
+	std::vector< Agent * >::iterator end = BacteriaPs.end();
 
 	for (; it != end; ++it)
 	{
 		Agent * pAgent = *it;
 		BacteriaPState::State state = (BacteriaPState::State) pAgent->getState();
+		BacteriaPState::State newState = state;
 
 		if (state == BacteriaPState::DEAD)
 		{
@@ -104,7 +105,7 @@ void BacteriaPGroup::act(const repast::Point<int> & pt)
 
 		if (state == BacteriaPState::NAIVE)
 		{
-			double bacteriaPinit = repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+			double bacteriaPinit = repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next();
 
 		if (bacteriaPinit > p_faecali)
 		{
