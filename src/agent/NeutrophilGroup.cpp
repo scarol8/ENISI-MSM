@@ -66,24 +66,23 @@ void NeutrophilGroup::act(const repast::Point<int> & pt)
 	Concentration EpithelialCellConcentration;
 	concentrations(Agent::EpithelialCell, EpithelialCells, EpithelialCellConcentration);
 
-	double bacteriaDAConcentration = BacteriaDAConcentration;
+	double bacteriaDAConcentration = BacteriaDAConcentration[BacteriaDAState::ECOLI] + BacteriaDAConcentration[BacteriaDAState::MYCO] + BacteriaDAConcentration[BacteriaDAState::KLEB] + BacteriaDAConcentration[BacteriaDAState::ENTERO] + BacteriaDAConcentration[BacteriaDAState::CORIO];
 	double ecoliConcentration = BacteriaDAConcentration[BacteriaDAState::ECOLI];
 	double infmacConcentration = MacrophageConcentration[MacrophageState::INFLAMMATORY];
 	double th1Concentration = TcellConcentration[TcellState::TH1];
 	double damagedEpithelialCellConcentration = EpithelialCellConcentration[EpithelialCellState::DAMAGED];
 	double inflamedEpithelialCellConcentration = EpithelialCellConcentration[EpithelialCellState::INFLAMED];
 
-	std::vector< Agent * >::iterator it = Neutrophil.begin();
-	std::vector< Agent * >::iterator end = Neutrophil.end();
+	std::vector< Agent * >::iterator it = Neutrophils.begin();
+	std::vector< Agent * >::iterator end = Neutrophils.end();
 
 	for (; it != end; ++it)
 	{
 		Agent * pAgent = *it;
 		NeutrophilState::State state = (NeutrophilState::State) pAgent->getState();
-
-		if (state == NeutrophilState::DEAD) continue;
-
 		NeutrophilState::State newState = state;
+		
+		if (state == NeutrophilState::DEAD) continue;
 
 		if (state == NeutrophilState::BASE)
 		{
@@ -112,14 +111,14 @@ void NeutrophilGroup::act(const repast::Point<int> & pt)
 			if (bacteriaDAConcentration > ENISI::Threshold
 					&& p_nbactact > repast::Random::instance()->createUniDoubleGenerator(0.0,1.0).next())
 			{
-				newstate = Neutrophil::State = ACTIVATED;
+				newState = NeutrophilState::ACTIVATED;
 				pAgent->setState(newState);
 			}
 			// neutrophils activated by epithelial cells
 			if (inflamedEpithelialCellConcentration > ENISI::Threshold
 					&& p_nepiact > repast::Random::instance()->createUniDoubleGenerator(0.0,1.0).next())
 			{
-				newstate = Neutrophil::State = ACTIVATED;
+				newState = NeutrophilState::ACTIVATED;
 				pAgent->setState(newState);
 			}
 			// neutrophils die
@@ -142,8 +141,8 @@ void NeutrophilGroup::act(const repast::Point<int> & pt)
 					&& p_nkillbac > repast::Random::instance()->createUniDoubleGenerator(0.0,1.0).next())
 			{
 				mpCompartment->cytokineValue("eIL17", pt) += 1;
-				mpCompartment->removeAgent(BacteriaDA[BacteriaDA.size() - 1]);
-				BacteriaDA.pop_back();
+				mpCompartment->removeAgent(BacteriaDAs[BacteriaDAs.size() - 1]);
+				BacteriaDAs.pop_back();
 			}
 			// activated neutrophils die
 			if (p_nactdeath - (th1Concentration / p_th1max) > repast::Random::instance()->createUniDoubleGenerator(0.0,1.0).next())
