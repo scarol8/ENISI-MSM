@@ -22,7 +22,7 @@ void ENISI::init()
 Agent::Type BacteriaPState::Type = Agent::BacteriaP;
 
 // static
-Agent::Type DendriticState::Type = Agent::Dentritics;
+Agent::Type DendriticState::Type = Agent::Dendritics;
 
 // static
 Agent::Type EpithelialCellState::Type = Agent::EpithelialCell;
@@ -47,7 +47,7 @@ size_t StateSize(const Agent::Type & type)
         return BacteriaPState::KEEP_AT_END;
         break;
 
-      case Agent::Dentritics:
+      case Agent::Dendritics:
         return DendriticState::KEEP_AT_END;
         break;
 
