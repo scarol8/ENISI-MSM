@@ -69,7 +69,8 @@ lamina_propria.Dendritics.concentration = Dendritics.concentration
 lamina_propria.Tcell.concentration = Tcell.concentration / 10
 lamina_propria.BacteriaP.concentration = 0
 lamina_propria.BacteriaDA.concentration = 0
-lamina_propria.macrophages.concentration = macrophages.concentration
+lamina_propria.macrophages.monocyte.concentration = macrophages.concentration / 2
+lamina_propria.macrophages.regulatory.concentration = macrophages.concentration
 lamina_propria.Neutrophil.concentration = Neutrophil.concentration
 
 #gastric_lymph_node
