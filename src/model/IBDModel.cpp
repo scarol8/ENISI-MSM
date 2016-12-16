@@ -83,7 +83,7 @@ void IBDModel::initialize_lamina_propria()
   if (!mpProperties->getValue("lamina_propria.BacteriaDA.concentration", concentration)) concentration = 0;
   new BacteriaDAGroup(mp_lamina_propria, concentration);
 
-  if (!mpProperties->getValue("mp_lamina_propria.BacteriaP.concentration", concentration)) concentration = 0;
+  if (!mpProperties->getValue("lamina_propria.BacteriaP.concentration", concentration)) concentration = 0;
   new BacteriaPGroup(mp_lamina_propria, concentration);
 
   if (!mpProperties->getValue("lamina_propria.macrophages.monocyte.concentration", concentration)) concentration = 0;
@@ -93,7 +93,7 @@ void IBDModel::initialize_lamina_propria()
   if (!mpProperties->getValue("lamina_propria.macrophages.regulatory.concentration", concentration2)) concentration2 = 0;
   new MacrophageGroup(mp_lamina_propria, concentration, concentration2);
 
-  if (!mpProperties->getValue("mp_lamina_propria.Neutrophil.concentration", concentration)) concentration = 0;
+  if (!mpProperties->getValue("lamina_propria.Neutrophil.concentration", concentration)) concentration = 0;
   new NeutrophilGroup(mp_lamina_propria, concentration);
 
   mp_lamina_propria->addCytokine("eIL6");
