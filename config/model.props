@@ -7,12 +7,12 @@ space.x = 30 nm
 # Tcell.concentration = 0.0
 # macrophages.concentration = 0.0
 
-BacteriaDA.concentration = 5.0
-BacteriaP.concentration = 25.0
-EpithelialCell.concentration = 1.0
+BacteriaDA.concentration = 2.0
+BacteriaP.concentration = 10.0
+EpithelialCell.concentration = 3.0
 Dendritics.concentration = 1.5
 Tcell.concentration = 10.0
-macrophages.concentration = 0.5
+macrophages.concentration = 1.0
 Neutrophil.concentration = 1.0
 
 Tcell.ODE = MSM_CD4.cps
@@ -22,7 +22,7 @@ cell.speed = 10 µm/min mesenchymal cells move slower (~<1 µm/min)
 
 # compartments
 lumen.space.x = space.x
-lumen.space.y = 30 nm
+lumen.space.y = 20 nm
 lumen.border.y.low = REFLECT
 lumen.border.y.high = epithilium
 lumen.BacteriaP.concentration = BacteriaP.concentration
@@ -42,31 +42,31 @@ lamina_propria.border.y.high = gastric_lymph_node
 # Yongguo used these values to make the model fit the data.
 # They dont have any inherent meaning otherwise
 lamina_propria.eIL6.initialValue = 1.0
-lamina_propria.eIL6.diffusion = 0.6
+lamina_propria.eIL6.diffusion = 0.4
 lamina_propria.eIL6.degradation = 0.05
 
 lamina_propria.eTGFb.initialValue = 1.0
-lamina_propria.eTGFb.diffusion = 0.6
-lamina_propria.eTGFb.degradation = 0.02
+lamina_propria.eTGFb.diffusion = 0.4
+lamina_propria.eTGFb.degradation = 0.05
 
-lamina_propria.eIL12.initialValue = 1.5
-lamina_propria.eIL12.diffusion = 0.6
-lamina_propria.eIL12.degradation = 0.02
+lamina_propria.eIL12.initialValue = 1.0
+lamina_propria.eIL12.diffusion = 0.4
+lamina_propria.eIL12.degradation = 0.05
 
 lamina_propria.eIL17.initialValue = 0.5
-lamina_propria.eIL17.diffusion = 0.6
-lamina_propria.eIL17.degradation = 0.02
+lamina_propria.eIL17.diffusion = 0.4
+lamina_propria.eIL17.degradation = 0.05
 
 lamina_propria.eIL10.initialValue = 0.5
-lamina_propria.eIL10.diffusion = 0.6
-lamina_propria.eIL10.degradation = 0.02
+lamina_propria.eIL10.diffusion = 0.4
+lamina_propria.eIL10.degradation = 0.05
 
 lamina_propria.eIFNg.initialValue = 0.5
-lamina_propria.eIFNg.diffusion = 0.6
-lamina_propria.eIFNg.degradation = 0.02
+lamina_propria.eIFNg.diffusion = 0.4
+lamina_propria.eIFNg.degradation = 0.05
 
 lamina_propria.Dendritics.concentration = Dendritics.concentration
-lamina_propria.Tcell.concentration = Tcell.concentration
+lamina_propria.Tcell.concentration = Tcell.concentration / 10
 lamina_propria.BacteriaP.concentration = 0
 lamina_propria.BacteriaDA.concentration = 0
 lamina_propria.macrophages.concentration = macrophages.concentration
@@ -74,31 +74,35 @@ lamina_propria.Neutrophil.concentration = Neutrophil.concentration
 
 #gastric_lymph_node
 gastric_lymph_node.space.x = space.x
-gastric_lymph_node.space.y = 30 nm
+gastric_lymph_node.space.y = 10 nm
 gastric_lymph_node.border.y.low = lamina_propria
 gastric_lymph_node.border.y.high = REFLECT
 gastric_lymph_node.Dendritics.concentration = Dendritics.concentration
 gastric_lymph_node.Tcell.concentration = Tcell.concentration
-
-gastric_lymph_node.eTGFb.initialValue = 50
-gastric_lymph_node.eTGFb.diffusion = 0.6
-gastric_lymph_node.eTGFb.degradation = 0.02
+                                                          
+gastric_lymph_node.eIL6.initialValue = 15
+gastric_lymph_node.eIL6.diffusion = 0.5
+gastric_lymph_node.eIL6.degradation = 0.05
+                                                          
+gastric_lymph_node.eTGFb.initialValue = 20
+gastric_lymph_node.eTGFb.diffusion = 0.5
+gastric_lymph_node.eTGFb.degradation = 0.05
 
 gastric_lymph_node.eIL12.initialValue = 10
-gastric_lymph_node.eIL12.diffusion = 0.6
-gastric_lymph_node.eIL12.degradation = 0.02
+gastric_lymph_node.eIL12.diffusion = 0.5
+gastric_lymph_node.eIL12.degradation = 0.05
 
 gastric_lymph_node.eIL17.initialValue = 0.5
-gastric_lymph_node.eIL17.diffusion = 0.6
-gastric_lymph_node.eIL17.degradation = 0.02
+gastric_lymph_node.eIL17.diffusion = 0.5
+gastric_lymph_node.eIL17.degradation = 0.05
 
 gastric_lymph_node.eIL10.initialValue = 0.4
-gastric_lymph_node.eIL10.diffusion = 0.6
-gastric_lymph_node.eIL10.degradation = 0.02
+gastric_lymph_node.eIL10.diffusion = 0.5
+gastric_lymph_node.eIL10.degradation = 0.05
 
 gastric_lymph_node.eIFNg.initialValue = 0.4
-gastric_lymph_node.eIFNg.diffusion = 0.6
-gastric_lymph_node.eIFNg.degradation = 0.02
+gastric_lymph_node.eIFNg.diffusion = 0.5
+gastric_lymph_node.eIFNg.degradation = 0.05
 
 # Parameter rules
 
