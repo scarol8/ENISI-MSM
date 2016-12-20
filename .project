@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>hpylori_compartments</name>
+	<name>ibd_compartments</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -9,10 +9,5 @@
 	<natures>
 	</natures>
 	<linkedResources>
-		<link>
-			<name>modelfiles/MregDiff.cps</name>
-			<type>1</type>
-			<location>C:/Users/Andrew/Downloads/MregDiff.cps</location>
-		</link>
 	</linkedResources>
 </projectDescription>
