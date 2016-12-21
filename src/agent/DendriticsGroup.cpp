@@ -179,7 +179,8 @@ void DendriticsGroup::act(const repast::Point<int> & pt)
 				mpCompartment->moveTo(pAgent->getId(), Location);
 				continue;
 			}
-			if (p_edccyto > repast::Random::instance()-> createUniDoubleGenerator(0.0, 1.0).next())
+			if (p_edccyto > repast::Random::instance()-> createUniDoubleGenerator(0.0, 1.0).next()
+			   && (mpCompartment->getType() == Compartment::lamina_propria || mpCompartment->getType() == Compartment::gastric_lymph_node))
 			{
 				mpCompartment->cytokineValue("eIL6", pt) += 7;
 				mpCompartment->cytokineValue("eIL12",pt) += 7;
@@ -212,7 +213,8 @@ void DendriticsGroup::act(const repast::Point<int> & pt)
 				mpCompartment->moveTo(pAgent->getId(), Location);
 				continue;
 			}
-			if (p_tdccyto > repast::Random::instance()-> createUniDoubleGenerator(0.0, 1.0).next())
+			if (p_tdccyto > repast::Random::instance()-> createUniDoubleGenerator(0.0, 1.0).next()
+			   && (mpCompartment->getType() == Compartment::lamina_propria || mpCompartment->getType() == Compartment::gastric_lymph_node))
 			{
 				mpCompartment->cytokineValue("eTGFb", pt) += 7;
 			}
