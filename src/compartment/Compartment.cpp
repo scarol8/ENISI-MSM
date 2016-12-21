@@ -607,8 +607,10 @@ std::vector< double > & Compartment::cytokineValues(const repast::Point< int > &
     }
 
   LocalFile::debug() << "ERROR: " << getName() << " " << pt << ", " << localGridDimensions() << std::endl;
+  if (mpDiffuserValues != NULL)
+  {
   LocalFile::debug() << mpDiffuserValues->origin() << ", " << mpDiffuserValues->shape() << std::endl;
-
+  }
   throw std::runtime_error("cytokine value not found: location not shared");
 
   static std::vector< double > NaN(mCytokines.size(), std::numeric_limits< double >::quiet_NaN());
