@@ -326,7 +326,7 @@ void EpithelialCellGroup::act(const repast::Point<int> & pt)
 // virtual
 void EpithelialCellGroup::move(){
 	// TODO CRITICAL Determine the maximum speed
-	double MaxSpeed = 0.1;
+	double MaxSpeed = 0.01;
 
 	// Find all local agents and move them
 	Compartment::LocalIterator itLocal = mpCompartment->localBegin();
