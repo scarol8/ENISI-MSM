@@ -39,7 +39,7 @@ MacrophageGroup::MacrophageGroup(Compartment * pCompartment,
 	pModel->getValue("p_monodeath", p_monodeath);
 	pModel->getValue("p_infmaccyto", p_infmaccyto);
 	pModel->getValue("p_intmaccyto", p_intmaccyto);
-
+	pModel->getValue("p_monobaserec", p_monobaserec);
 }
 
 MacrophageGroup::~MacrophageGroup()
@@ -167,6 +167,11 @@ void MacrophageGroup::act(const repast::Point<int> & pt)
 					BacteriaDAs.pop_back();
 				}
 			}
+			if (p_monobaserec > repast::Random::instance()-> createUniDoubleGenerator(0.0, 1.0).next())
+			{
+				mpCompartment->getLocation(pAgent->getId(), Location);
+				mpCompartment->addAgent(new Agent(Agent::Macrophage, pAgent->getState()), Location);
+			}
 			if (p_monodeath > repast::Random::instance()-> createUniDoubleGenerator(0.0, 1.0).next())
 			{
 				mpCompartment->removeAgent(pAgent);
@@ -178,6 +183,11 @@ void MacrophageGroup::act(const repast::Point<int> & pt)
 			{
 				mpCompartment->cytokineValue("eIFNg", pt) += 5;
 			}
+			if ((epiinfConcentration > ENISI::Threshold || epidamConcentration > ENISI::Threshold) && p_monorec > repast::Random::instance()-> createUniDoubleGenerator(0.0, 1.0).next())
+			{
+				mpCompartment->getLocation(pAgent->getId(), Location);
+				mpCompartment->addAgent(new Agent(Agent::Macrophage, MacrophageState::MONOCYTE), Location);
+			}
 			if (p_monodeath > repast::Random::instance()-> createUniDoubleGenerator(0.0, 1.0).next())
 			{
 				mpCompartment->removeAgent(pAgent);
@@ -188,6 +198,11 @@ void MacrophageGroup::act(const repast::Point<int> & pt)
 			if (p_intmaccyto > repast::Random::instance()-> createUniDoubleGenerator(0.0, 1.0).next())
 			{
 				mpCompartment->cytokineValue("eTGFb", pt) += 5;
+			}
+			if ((epiinfConcentration > ENISI::Threshold || epidamConcentration > ENISI::Threshold) && p_monorec > repast::Random::instance()-> createUniDoubleGenerator(0.0, 1.0).next())
+			{
+				mpCompartment->getLocation(pAgent->getId(), Location);
+				mpCompartment->addAgent(new Agent(Agent::Macrophage, MacrophageState::MONOCYTE), Location);
 			}
 			if (p_monodeath > repast::Random::instance()-> createUniDoubleGenerator(0.0, 1.0).next())
 			{

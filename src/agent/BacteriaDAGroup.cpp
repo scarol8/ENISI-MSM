@@ -388,8 +388,11 @@ void BacteriaDAGroup::act(const repast::Point<int> & pt){
 					continue;
 				}
 				// random death
-				if (p_coriolumdeath > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()
-						&& erysiConcentration / (corioConcentration + 1) > p_ErysiProInh)
+				if (p_coriolumdeath > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+				{
+					mpCompartment->removeAgent(pAgent);
+				}
+				if ( erysiConcentration / (corioConcentration + 1) > p_ErysiProInh)
 				{
 					mpCompartment->removeAgent(pAgent);
 					continue;

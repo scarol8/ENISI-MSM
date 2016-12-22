@@ -40,6 +40,7 @@ private:
 	double p_monodeath;
 	double p_infmaccyto;
 	double p_intmaccyto;
+	double p_monobaserec;
 };
 
 } // namespace ENISI

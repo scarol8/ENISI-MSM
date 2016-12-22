@@ -29,7 +29,7 @@ NeutrophilGroup::NeutrophilGroup(Compartment * pCompartment, const double & conc
 	pModel->getValue("p_nkillbac", p_nkillbac);
 	pModel->getValue("p_nactdeath", p_nactdeath);
 	pModel->getValue("p_th1max", p_th1max);
-
+	pModel->getValue("p_neutbaserec", p_neutbaserec);
 }
 
 void NeutrophilGroup::act(const repast::Point<int> & pt)
@@ -103,6 +103,11 @@ void NeutrophilGroup::act(const repast::Point<int> & pt)
 			// neutrophils recruited by damaged epithelial cells
 			if (damagedEpithelialCellConcentration > ENISI::Threshold
 					&& p_nreced > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+			{
+				mpCompartment->getLocation(pAgent->getId(), Location);
+				mpCompartment->addAgent(new Agent(Agent::Neutrophil, pAgent->getState()), Location);
+			}
+			if (p_neutbaserec > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
 			{
 				mpCompartment->getLocation(pAgent->getId(), Location);
 				mpCompartment->addAgent(new Agent(Agent::Neutrophil, pAgent->getState()), Location);

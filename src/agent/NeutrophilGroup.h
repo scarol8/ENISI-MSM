@@ -32,7 +32,7 @@ private:
   double p_nkillbac;
   double p_nactdeath;
   double p_th1max;
-
+  double p_neutbaserec;
 };
 
 } // namespace ENISI
