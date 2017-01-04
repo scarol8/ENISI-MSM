@@ -146,11 +146,14 @@ void NeutrophilGroup::act(const repast::Point<int> & pt)
 					&& p_nkillbac > repast::Random::instance()->createUniDoubleGenerator(0.0,1.0).next())
 			{
 				mpCompartment->cytokineValue("eIL17", pt) += 1;
-				mpCompartment->removeAgent(BacteriaDAs[BacteriaDAs.size() - 1]);
-				BacteriaDAs.pop_back();
+				if (BacteriaDAs.size() > 0)
+				{
+					mpCompartment->removeAgent(BacteriaDAs[BacteriaDAs.size() - 1]);
+					BacteriaDAs.pop_back();
+				}
 			}
 			// activated neutrophils die
-			if (p_nactdeath - (th1Concentration / p_th1max) > repast::Random::instance()->createUniDoubleGenerator(0.0,1.0).next())
+			if (p_nactdeath > repast::Random::instance()->createUniDoubleGenerator(0.0,1.0).next() && th1Concentration * repast::Random::instance()->createUniDoubleGenerator(0.0,1.0).next() < p_th1max)
 			{
 				mpCompartment->removeAgent(pAgent);
 			}
