@@ -28,12 +28,61 @@ lumen.border.y.high = epithilium
 lumen.BacteriaP.concentration = BacteriaP.concentration
 lumen.BacteriaDA.concentration = BacteriaDA.concentration
 
+lumen.eIL6.initialValue = 0.0
+lumen.eIL6.diffusion = 0.4
+lumen.eIL6.degradation = 0.9
+
+lumen.eTGFb.initialValue = 0.0
+lumen.eTGFb.diffusion = 0.4
+lumen.eTGFb.degradation = 0.9
+
+lumen.eIL12.initialValue = 0.0
+lumen.eIL12.diffusion = 0.4
+lumen.eIL12.degradation = 0.9
+
+lumen.eIL17.initialValue = 0.0
+lumen.eIL17.diffusion = 0.4
+lumen.eIL17.degradation = 0.9
+
+lumen.eIL10.initialValue = 0.0
+lumen.eIL10.diffusion = 0.4
+lumen.eIL10.degradation = 0.9
+
+lumen.eIFNg.initialValue = 0.0
+lumen.eIFNg.diffusion = 0.4
+lumen.eIFNg.degradation = 0.9
+
 epithilium.space.x = space.x
 epithilium.space.y = 1 nm
 epithilium.border.y.low = lumen
 epithilium.border.y.high = lamina_propria
 epithilium.EpithelialCell.concentration = EpithelialCell.concentration
 epithilium.Dendritics.concentration = 0.4
+
+epithilium.eIL6.initialValue = 0.0
+epithilium.eIL6.diffusion = 0.4
+epithilium.eIL6.degradation = 0.9
+
+epithilium.eTGFb.initialValue = 0.0
+epithilium.eTGFb.diffusion = 0.4
+epithilium.eTGFb.degradation = 0.9
+
+epithilium.eIL12.initialValue = 0.0
+epithilium.eIL12.diffusion = 0.4
+epithilium.eIL12.degradation = 0.9
+
+epithilium.eIL17.initialValue = 0.0
+epithilium.eIL17.diffusion = 0.4
+epithilium.eIL17.degradation = 0.9
+
+epithilium.eIL10.initialValue = 0.0
+epithilium.eIL10.diffusion = 0.4
+epithilium.eIL10.degradation = 0.9
+
+epithilium.eIFNg.initialValue = 0.0
+epithilium.eIFNg.diffusion = 0.4
+epithilium.eIFNg.degradation = 0.9
+
 lamina_propria.space.x = space.x
 lamina_propria.space.y = 30 nm
 lamina_propria.border.y.low = epithilium
