@@ -53,6 +53,15 @@ void IBDModel::initialize_lumen()
 
   if (!mpProperties->getValue("lumen.BacteriaP.concentration", concentration)) concentration = 0;
   new BacteriaPGroup(mp_lumen, concentration);
+
+  /* mp_lumen->addCytokine("eIL6");
+  mp_lumen->addCytokine("eTGFb");
+  mp_lumen->addCytokine("eIL12");
+  mp_lumen->addCytokine("eIL17");
+  mp_lumen->addCytokine("eIL10");
+  mp_lumen->addCytokine("eIFNg");*/
+
+  mp_lumen->initializeDiffuserData();
 }
 
 void IBDModel::initialize_epithilium()
@@ -66,6 +75,15 @@ void IBDModel::initialize_epithilium()
 
   if (!mpProperties->getValue("epithilium.Dendritics.concentration", concentration)) concentration = 0;
   new DendriticsGroup(mp_epithilium, concentration);
+
+  /*mp_epithilium->addCytokine("eIL6");
+  mp_epithilium->addCytokine("eTGFb");
+  mp_epithilium->addCytokine("eIL12");
+  mp_epithilium->addCytokine("eIL17");
+  mp_epithilium->addCytokine("eIL10");
+  mp_epithilium->addCytokine("eIFNg");*/
+
+  mp_epithilium->initializeDiffuserData();
 }
 
 void IBDModel::initialize_lamina_propria()
