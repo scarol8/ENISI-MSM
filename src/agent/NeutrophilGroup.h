@@ -33,6 +33,7 @@ private:
   double p_nactdeath;
   double p_th1max;
   double p_neutbaserec;
+  double p_Nbasal;
 };
 
 } // namespace ENISI
