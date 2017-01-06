@@ -32,6 +32,7 @@ MacrophageGroup::MacrophageGroup(Compartment * pCompartment,
 	pModel->getValue("p_trmacrep", p_trmacrep);
 	pModel->getValue("p_trmackill", p_trmackill);
 	pModel->getValue("p_trmacdeath", p_trmacdeath);
+	pModel->getValue("p_trmacCap", p_trmacCap);
 	pModel->getValue("p_monorec", p_monorec);
 	pModel->getValue("p_monoint", p_monoint);
 	pModel->getValue("p_monoint2", p_monoint2);
@@ -120,7 +121,8 @@ void MacrophageGroup::act(const repast::Point<int> & pt)
 				mpCompartment->cytokineValue("eTGFb", pt) += 2;
 			}
 			if ((epihealConcentration > ENISI::Threshold || trmacConcentration > ENISI::Threshold)
-					&& p_trmacrep > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+					&& p_trmacrep > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()
+			   		&& p_trmacCap > (trmacConcentration * repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()))
 			{
 				mpCompartment->getLocation(pAgent->getId(), Location);
 				mpCompartment->addAgent(new Agent(Agent::Macrophage, pAgent->getState()), Location);
