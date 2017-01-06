@@ -34,7 +34,7 @@ private:
 	double p_tdccyto;
 	double p_edccyto;
 	double p_dcdeath;
-
+	double p_DCbasal;
 };
 
 } // namespace ENISI
