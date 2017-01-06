@@ -43,7 +43,7 @@ private:
 	double p_tregrep;
 	double p_th1rep;
 	double p_allTcap;
-
+	double p_Tbasal;
 
 };
 
