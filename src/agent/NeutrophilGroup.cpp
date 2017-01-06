@@ -30,6 +30,8 @@ NeutrophilGroup::NeutrophilGroup(Compartment * pCompartment, const double & conc
 	pModel->getValue("p_nactdeath", p_nactdeath);
 	pModel->getValue("p_th1max", p_th1max);
 	pModel->getValue("p_neutbaserec", p_neutbaserec);
+	pModel->getValue("p_Nbasal", p_Nbasal);										  
+											 
 }
 
 void NeutrophilGroup::act(const repast::Point<int> & pt)
@@ -66,6 +68,7 @@ void NeutrophilGroup::act(const repast::Point<int> & pt)
 	Concentration EpithelialCellConcentration;
 	concentrations(Agent::EpithelialCell, EpithelialCells, EpithelialCellConcentration);
 
+	double neutConcentration = NeutrophilConcentration[NeutrophilState::BASE] + NeutrophilConcentration[NeutrophilState::ACTIVATED];
 	double bacteriaDAConcentration = BacteriaDAConcentration[BacteriaDAState::ECOLI] + BacteriaDAConcentration[BacteriaDAState::MYCO] + BacteriaDAConcentration[BacteriaDAState::KLEB] + BacteriaDAConcentration[BacteriaDAState::ENTERO] + BacteriaDAConcentration[BacteriaDAState::CORIO];
 	double ecoliConcentration = BacteriaDAConcentration[BacteriaDAState::ECOLI];
 	double infmacConcentration = MacrophageConcentration[MacrophageState::INFLAMMATORY];
@@ -108,6 +111,11 @@ void NeutrophilGroup::act(const repast::Point<int> & pt)
 				mpCompartment->addAgent(new Agent(Agent::Neutrophil, pAgent->getState()), Location);
 			}
 			if (p_neutbaserec > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+			{
+				mpCompartment->getLocation(pAgent->getId(), Location);
+				mpCompartment->addAgent(new Agent(Agent::Neutrophil, pAgent->getState()), Location);
+			}
+			if (p_Nbasal > neutConcentration)
 			{
 				mpCompartment->getLocation(pAgent->getId(), Location);
 				mpCompartment->addAgent(new Agent(Agent::Neutrophil, pAgent->getState()), Location);
