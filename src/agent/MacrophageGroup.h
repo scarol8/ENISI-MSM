@@ -33,6 +33,7 @@ private:
 	double p_trmacrep;
 	double p_trmackill;
 	double p_trmacdeath;
+	double p_trmacCap;
 	double p_monorec;
 	double p_monoint;
 	double p_monoint2;
