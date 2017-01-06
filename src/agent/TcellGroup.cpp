@@ -40,6 +40,7 @@ TcellGroup::TcellGroup(Compartment * pCompartment, const double & concentrations
 	pModel->getValue("p_tregrep", p_tregrep);
 	pModel->getValue("p_th1rep", p_th1rep);
 	pModel->getValue("p_allTcap", p_allTcap);
+	pModel->getValue("p_Tbasal", p_Tbasal);
 }
 
 void TcellGroup::act(const repast::Point<int> & pt)
@@ -245,6 +246,12 @@ void TcellGroup::act(const repast::Point<int> & pt)
 		{
 			if (state == TcellState::NAIVE)
 			{
+				if (p_Tbasal > (naiveTConcentration + th1Concentration + tregConcentration + th17Concentration * repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()))
+				{
+					mpCompartment->getLocation(pAgent->getId(), Location);
+					mpCompartment->addAgent(new Agent(Agent::Tcell, pAgent->getState()), Location);
+					continue;
+				}
 				if (p_ntdeath > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
 				{
 					mpCompartment->removeAgent(pAgent);
