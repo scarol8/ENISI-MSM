@@ -40,6 +40,7 @@ MacrophageGroup::MacrophageGroup(Compartment * pCompartment,
 	pModel->getValue("p_infmaccyto", p_infmaccyto);
 	pModel->getValue("p_intmaccyto", p_intmaccyto);
 	pModel->getValue("p_monobaserec", p_monobaserec);
+	pModel->getValue("p_Mbasal", p_Mbasal);		
 }
 
 MacrophageGroup::~MacrophageGroup()
@@ -86,6 +87,7 @@ void MacrophageGroup::act(const repast::Point<int> & pt)
 	double trmacConcentration = MacrophageConcentration[MacrophageState::RESIDENT];
 	double infmacConcentration = MacrophageConcentration[MacrophageState::INFLAMMATORY];
 	double intmacConcentration = MacrophageConcentration[MacrophageState::INTERMEDIATE];
+	double monosConcentration = MacrophageConcentration[MacrophageState::MONOCYTE] + MacrophageConcentration[MacrophageState::INFLAMMATORY] + MacrophageConcentration[MacrophageState::INTERMEDIATE];
 	double bacConcentration = BacteriaDAConcentration[BacteriaDAState::MYCO] + BacteriaDAConcentration[BacteriaDAState::ECOLI] + BacteriaDAConcentration[BacteriaDAState::KLEB];
 	double mycoConcentration = BacteriaDAConcentration[BacteriaDAState::MYCO];
 
@@ -168,6 +170,11 @@ void MacrophageGroup::act(const repast::Point<int> & pt)
 				}
 			}
 			if (p_monobaserec > repast::Random::instance()-> createUniDoubleGenerator(0.0, 1.0).next())
+			{
+				mpCompartment->getLocation(pAgent->getId(), Location);
+				mpCompartment->addAgent(new Agent(Agent::Macrophage, pAgent->getState()), Location);
+			}
+			if (p_Mbasal > monosConcentration)
 			{
 				mpCompartment->getLocation(pAgent->getId(), Location);
 				mpCompartment->addAgent(new Agent(Agent::Macrophage, pAgent->getState()), Location);
