@@ -43,6 +43,7 @@ EpithelialCellGroup::EpithelialCellGroup(Compartment * pCompartment, const doubl
 	pModel->getValue("p_epiddeath", p_epiddeath);
 	pModel->getValue("p_epidremove", p_epidremove);
 	pModel->getValue("p_epidead", p_epidead);
+	pModel->getValue("p_epiCap", p_epiCap);
 	}
 
 void EpithelialCellGroup::act(const repast::Point<int> & pt)
@@ -98,6 +99,7 @@ void EpithelialCellGroup::act(const repast::Point<int> & pt)
 	double th1Concentration = TCellConcentration[TcellState::TH1];
 	double th17Concentration = TCellConcentration[TcellState::TH17];
 	double edConcentration = EpithelialCellConcentration[EpithelialCellState::DAMAGED];
+	double ehConcentration = EpithelialCellConcentration[EpithelialCellState::HEALTHY];
 
 	std::vector< Agent * >::iterator it = EpithelialCells.begin();
 	std::vector< Agent * >::iterator end = EpithelialCells.end();
@@ -182,7 +184,8 @@ void EpithelialCellGroup::act(const repast::Point<int> & pt)
 				newState = EpithelialCellState::INFLAMED;
 				pAgent->setState(newState);
 			}
-			if (p_epirep > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+			if (p_epirep > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()
+			   		&& p_epiCap > ehConcentration)
 			{
 				mpCompartment->getLocation(pAgent->getId(), Location);
 				mpCompartment->addAgent(new Agent(Agent::EpithelialCell, EpithelialCellState::HEALTHY), Location);
