@@ -30,6 +30,7 @@ DendriticsGroup::DendriticsGroup(Compartment * pCompartment, const double & conc
 	pModel->getValue("p_tdccyto", p_tdccyto);
 	pModel->getValue("p_edccyto", p_edccyto);
 	pModel->getValue("p_dcdeath", p_dcdeath);
+	pModel->getValue("p_DCbasal", p_DCbasal);		
 
 }
 
@@ -91,6 +92,7 @@ void DendriticsGroup::act(const repast::Point<int> & pt)
 	double epiinfConcentration = EpithelialCellConcentration[EpithelialCellState::INFLAMED];
 	double epihealConcentration = EpithelialCellConcentration[EpithelialCellState::HEALTHY];
 	double edcConcentration = DendriticsConcentration[DendriticState::EFFECTOR];
+	double dcConcentration = DendriticsConcentration[DendriticState::IMMATURE] + DendriticsConcentration[DendriticState::TOLEROGENIC] + DendriticsConcentration[DendriticState::EFFECTOR];
 	double itregConcentration = TcellConcentration[TcellState::iTREG];
 
 	std::vector< Agent * >::iterator it = Dendritics.begin();
@@ -152,6 +154,12 @@ void DendriticsGroup::act(const repast::Point<int> & pt)
 			}
 			if ((epidamConcentration > ENISI::Threshold || epiinfConcentration > ENISI::Threshold)
 					&& (p_idcrec > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()))
+			{
+				mpCompartment->getLocation(pAgent->getId(), Location);
+				mpCompartment->addAgent(new Agent(Agent::Dendritics, pAgent->getState()), Location);
+			}
+			if (p_DCbasal > dcConcentration
+			   	&& mpCompartment->getType() == Compartment::lamina_propria)
 			{
 				mpCompartment->getLocation(pAgent->getId(), Location);
 				mpCompartment->addAgent(new Agent(Agent::Dendritics, pAgent->getState()), Location);
