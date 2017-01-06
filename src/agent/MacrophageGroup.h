@@ -41,6 +41,7 @@ private:
 	double p_infmaccyto;
 	double p_intmaccyto;
 	double p_monobaserec;
+	double p_Mbasal;
 };
 
 } // namespace ENISI
