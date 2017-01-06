@@ -45,6 +45,7 @@ private:
 	double p_epiddeath;
 	double p_epidremove;
 	double p_epidead;
+	double p_epiCap;
 };
 
 } // namespace ENISI
