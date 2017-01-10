@@ -147,8 +147,9 @@ void MacrophageGroup::act(const repast::Point<int> & pt)
 				mpCompartment->getLocation(pAgent->getId(), Location);
 				mpCompartment->addAgent(new Agent(Agent::Macrophage, pAgent->getState()), Location);
 			}
-			if ((Mreg / p_monoint) > repast::Random::instance()-> createUniDoubleGenerator(0.0, 1.0).next()
+			if (((Mreg / p_monoint) > repast::Random::instance()-> createUniDoubleGenerator(0.0, 1.0).next()
 					|| (tregConcentration / p_monoint2) > repast::Random::instance()-> createUniDoubleGenerator(0.0, 1.0).next())
+			   		&& p_trmacrep > repast::Random::instance()-> createUniDoubleGenerator(0.0, 1.0).next())
 			{
 				newState = MacrophageState::INTERMEDIATE;
 				pAgent->setState(newState);
