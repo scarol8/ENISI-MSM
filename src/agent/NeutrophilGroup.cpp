@@ -73,6 +73,7 @@ void NeutrophilGroup::act(const repast::Point<int> & pt)
 	double ecoliConcentration = BacteriaDAConcentration[BacteriaDAState::ECOLI];
 	double infmacConcentration = MacrophageConcentration[MacrophageState::INFLAMMATORY];
 	double th1Concentration = TcellConcentration[TcellState::TH1];
+	double th17Concentration = TcellConcentration[TcellState::TH17];
 	double damagedEpithelialCellConcentration = EpithelialCellConcentration[EpithelialCellState::DAMAGED];
 	double inflamedEpithelialCellConcentration = EpithelialCellConcentration[EpithelialCellState::INFLAMED];
 
@@ -90,7 +91,7 @@ void NeutrophilGroup::act(const repast::Point<int> & pt)
 		if (state == NeutrophilState::BASE)
 		{
 			// neutrophils recruited by macrophages
-			if (infmacConcentration > ENISI::Threshold
+			if (th17Concentration > ENISI::Threshold
 					&& p_nrecmac > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
 			{
 				mpCompartment->getLocation(pAgent->getId(), Location);
@@ -110,11 +111,11 @@ void NeutrophilGroup::act(const repast::Point<int> & pt)
 				mpCompartment->getLocation(pAgent->getId(), Location);
 				mpCompartment->addAgent(new Agent(Agent::Neutrophil, pAgent->getState()), Location);
 			}
-			if (p_neutbaserec > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
+			/*if (p_neutbaserec > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
 			{
 				mpCompartment->getLocation(pAgent->getId(), Location);
 				mpCompartment->addAgent(new Agent(Agent::Neutrophil, pAgent->getState()), Location);
-			}
+			}*/
 			if (p_Nbasal > neutConcentration)
 			{
 				mpCompartment->getLocation(pAgent->getId(), Location);
