@@ -193,8 +193,8 @@ void EpithelialCellGroup::act(const repast::Point<int> & pt)
 
 			if (p_epideath > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
 			{
-				mpCompartment->removeAgent(pAgent);
-				continue;
+				newState = EpithelialCellState::DEAD;
+				pAgent->setState(newState);
 			}
 		}
 		if (state == EpithelialCellState::INFLAMED)
@@ -314,8 +314,8 @@ void EpithelialCellGroup::act(const repast::Point<int> & pt)
 			if (intmacConcentration > ENISI::Threshold
 					&& p_epidremove > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
 			{
-				mpCompartment->removeAgent(pAgent);
-				continue;
+				newState = EpithelialCellState::HEALTHY;
+				pAgent->setState(newState);
 			}
 			if (p_epidead > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
 			{
