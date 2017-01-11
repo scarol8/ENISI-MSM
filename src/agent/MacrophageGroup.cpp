@@ -193,7 +193,7 @@ void MacrophageGroup::act(const repast::Point<int> & pt)
 			{
 				mpCompartment->cytokineValue("eIFNg", pt) += 5;
 			}
-			if ((epiinfConcentration > ENISI::Threshold || epidamConcentration > ENISI::Threshold || infmacConcentration > ENISI::Threshold) && p_monorec > repast::Random::instance()-> createUniDoubleGenerator(0.0, 1.0).next())
+			if ((epiinfConcentration > ENISI::Threshold || epidamConcentration > ENISI::Threshold || infmacConcentration > ENISI::Threshold) && p_monorec > repast::Random::instance()-> createUniDoubleGenerator(0.0, 1.0).next() && monosConcentration < p_trmacCap)
 			{
 				mpCompartment->getLocation(pAgent->getId(), Location);
 				mpCompartment->addAgent(new Agent(Agent::Macrophage, MacrophageState::MONOCYTE), Location);
