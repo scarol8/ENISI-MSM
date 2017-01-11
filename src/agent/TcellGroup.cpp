@@ -168,7 +168,7 @@ void TcellGroup::act(const repast::Point<int> & pt)
 			}
 			if (state == TcellState::TH17)
 			{
-				if  ((tDCConcentration > ENISI::Threshold)
+				if  ((tDCConcentration > eDCConcentration)
 						&& (p_th17treg > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()))
 				{
 					newState = TcellState::iTREG;
@@ -195,7 +195,7 @@ void TcellGroup::act(const repast::Point<int> & pt)
 			}
 			if (state == TcellState::iTREG)
 			{
-				if  ((eDCConcentration > ENISI::Threshold)
+				if  ((eDCConcentration > tDCConcentration)
 						&& (p_tregth17 > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()))
 				{
 					newState = TcellState::TH17;
@@ -268,7 +268,7 @@ void TcellGroup::act(const repast::Point<int> & pt)
 					mpCompartment->addAgent(new Agent(Agent::Tcell, pAgent->getState()), Location);
 					continue;
 				}
-				if (eDCConcentration > ENISI::Threshold || ((IL17 + IL6) > (TGFb + IL10))
+				if ((eDCConcentration > tDCConcentration || ((IL17 + IL6) > (TGFb + IL10)))
 						&& (p_tregth17 > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()))
 				{
 					newState = TcellState::TH17;
@@ -294,7 +294,7 @@ void TcellGroup::act(const repast::Point<int> & pt)
 					mpCompartment->addAgent(new Agent(Agent::Tcell, pAgent->getState()), Location);
 					continue;
 				}
-				if (tDCConcentration > ENISI::Threshold || ((IL17 + IL6) < (TGFb + IL10))
+				if ((tDCConcentration > eDCConcentration || ((IL17 + IL6) < (TGFb + IL10)))
 						&& (p_th17treg > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next()))
 				{
 					newState = TcellState::iTREG;
