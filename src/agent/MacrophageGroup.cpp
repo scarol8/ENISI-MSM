@@ -202,6 +202,10 @@ void MacrophageGroup::act(const repast::Point<int> & pt)
 			{
 				mpCompartment->removeAgent(pAgent);
 			}
+			if (tregConcentration > th1Concentration && p_trmacdeath > repast::Random::instance()-> createUniDoubleGenerator(0.0, 1.0).next())
+			{
+				mpCompartment->removeAgent(pAgent);
+			}
 		}
 		if (state == MacrophageState::INTERMEDIATE)
 		{
