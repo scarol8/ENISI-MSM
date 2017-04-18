@@ -118,6 +118,9 @@ void IBDModel::initialize_lamina_propria()
   mp_lamina_propria->addCytokine("eTGFb");
   mp_lamina_propria->addCytokine("eIL12");
   mp_lamina_propria->addCytokine("eIL17");
+  mp_lamina_propria->addCytokine("eIL8");
+  mp_lamina_propria->addCytokine("eIL22");
+  mp_lamina_propria->addCytokine("eTNFa");
   mp_lamina_propria->addCytokine("eIL10");
   mp_lamina_propria->addCytokine("eIFNg");
 
@@ -140,6 +143,9 @@ void IBDModel::initialize_gastric_lymph_node()
   mp_gastric_lymph_node->addCytokine("eTGFb");
   mp_gastric_lymph_node->addCytokine("eIL12");
   mp_gastric_lymph_node->addCytokine("eIL17");
+  mp_gastric_lymph_node->addCytokine("eIL8");
+  mp_gastric_lymph_node->addCytokine("eIL22");
+  mp_gastric_lymph_node->addCytokine("eTNFa");
   mp_gastric_lymph_node->addCytokine("eIL10");
   mp_gastric_lymph_node->addCytokine("eIFNg");
 

@@ -155,6 +155,9 @@ void NeutrophilGroup::act(const repast::Point<int> & pt)
 					&& p_nkillbac > repast::Random::instance()->createUniDoubleGenerator(0.0,1.0).next())
 			{
 				mpCompartment->cytokineValue("eIL17", pt) += 1;
+				mpCompartment->cytokineValue("eIL8", pt) += 1;
+				mpCompartment->cytokineValue("eIL22", pt) += 1;
+				mpCompartment->cytokineValue("eTNFa", pt) += 1;
 				if (BacteriaDAs.size() > 0)
 				{
 					mpCompartment->removeAgent(BacteriaDAs[BacteriaDAs.size() - 1]);

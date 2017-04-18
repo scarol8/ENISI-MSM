@@ -44,6 +44,18 @@ lumen.eIL17.initialValue = 0.0
 lumen.eIL17.diffusion = 0.4
 lumen.eIL17.degradation = 0.9
 
+lumen.eIL8.initialValue = 0.0
+lumen.eIL8.diffusion = 0.4
+lumen.eIL8.degradation = 0.9
+
+lumen.eIL22.initialValue = 0.0
+lumen.eIL22.diffusion = 0.4
+lumen.eIL22.degradation = 0.9
+
+lumen.eTNFa.initialValue = 0.0
+lumen.eTNFa.diffusion = 0.4
+lumen.eTNFa.degradation = 0.9
+
 lumen.eIL10.initialValue = 0.0
 lumen.eIL10.diffusion = 0.4
 lumen.eIL10.degradation = 0.9
@@ -75,6 +87,18 @@ epithilium.eIL17.initialValue = 0.0
 epithilium.eIL17.diffusion = 0.4
 epithilium.eIL17.degradation = 0.9
 
+epithilium.eIL8.initialValue = 0.0
+epithilium.eIL8.diffusion = 0.4
+epithilium.eIL8.degradation = 0.9
+
+epithilium.eIL22.initialValue = 0.0
+epithilium.eIL22.diffusion = 0.4
+epithilium.eIL22.degradation = 0.9
+
+epithilium.eTNFa.initialValue = 0.0
+epithilium.eTNFa.diffusion = 0.4
+epithilium.eTNFa.degradation = 0.9
+
 epithilium.eIL10.initialValue = 0.0
 epithilium.eIL10.diffusion = 0.4
 epithilium.eIL10.degradation = 0.9
@@ -105,6 +129,18 @@ lamina_propria.eIL12.degradation = 0.05
 lamina_propria.eIL17.initialValue = 0.5
 lamina_propria.eIL17.diffusion = 0.4
 lamina_propria.eIL17.degradation = 0.05
+
+lamina_propria.eIL8.initialValue = 0.5
+lamina_propria.eIL8.diffusion = 0.4
+lamina_propria.eIL8.degradation = 0.05
+
+lamina_propria.eIL22.initialValue = 0.5
+lamina_propria.eIL22.diffusion = 0.4
+lamina_propria.eIL22.degradation = 0.05
+
+lamina_propria.eTNFa.initialValue = 0.5
+lamina_propria.eTNFa.diffusion = 0.4
+lamina_propria.eTNFa.degradation = 0.05
 
 lamina_propria.eIL10.initialValue = 0.5
 lamina_propria.eIL10.diffusion = 0.4
@@ -145,6 +181,18 @@ gastric_lymph_node.eIL12.degradation = 0.05
 gastric_lymph_node.eIL17.initialValue = 0.5
 gastric_lymph_node.eIL17.diffusion = 0.5
 gastric_lymph_node.eIL17.degradation = 0.05
+
+gastric_lymph_node.eIL8.initialValue = 0.5
+gastric_lymph_node.eIL8.diffusion = 0.5
+gastric_lymph_node.eIL8.degradation = 0.05
+
+gastric_lymph_node.eIL22.initialValue = 0.5
+gastric_lymph_node.eIL22.diffusion = 0.5
+gastric_lymph_node.eIL22.degradation = 0.05
+
+gastric_lymph_node.eTNFa.initialValue = 0.5
+gastric_lymph_node.eTNFa.diffusion = 0.5
+gastric_lymph_node.eTNFa.degradation = 0.05
 
 gastric_lymph_node.eIL10.initialValue = 0.4
 gastric_lymph_node.eIL10.diffusion = 0.5
@@ -286,6 +334,9 @@ p_th17diff = 0.65
 p_tregdiff = 0.65
 p_IL10 = 0.5
 p_IL17 = 0.5
+p_IL8 = 0.5
+p_IL22 = 0.5
+p_TNFa = 0.5
 p_IFNg = 0.5
 p_ntdeath = 0.01
 p_th17treg = 0.4

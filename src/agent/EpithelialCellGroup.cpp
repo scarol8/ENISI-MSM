@@ -301,6 +301,9 @@ void EpithelialCellGroup::act(const repast::Point<int> & pt)
 			{
 				int yOffset = mpCompartment->gridBorders()->distanceFromBorder(pt.coords(), Borders::Y, Borders::HIGH);
 				mpCompartment->cytokineValue("eIL17", pt, 0, yOffset) += 7;
+				mpCompartment->cytokineValue("eIL8", pt, 0, yOffset) += 7;
+				mpCompartment->cytokineValue("eIL22", pt, 0, yOffset) += 7;
+				mpCompartment->cytokineValue("eTNFa", pt, 0, yOffset) += 7;
 				mpCompartment->cytokineValue("eIFNg", pt, 0, yOffset) += 7;
 			}
 			if (p_epiddeath > repast::Random::instance()->createUniDoubleGenerator(0.0, 1.0).next())
